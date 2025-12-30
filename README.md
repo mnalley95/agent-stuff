@@ -33,6 +33,7 @@ The release management commands do not work without tuning!  But you can put cla
 
 All skill files are in the [`skills`](skills) folder:
 
+* [`/ghidra`](skills/ghidra) - Claude Skill for reverse engineering binaries using Ghidra's headless analyzer
 * [`/web-browser`](skills/web-browser) - Claude Skill for using Puppeteer in a Node environment to browse the web
 * [`/tmux`](skills/tmux) - Claude Skill for driving tmux directly with keystrokes and pane output scraping
 * [`/sentry`](skills/sentry) - Alternative way to access Sentry as a Claude Skill for reading issues
@@ -53,6 +54,10 @@ In the [`skills/sentry`](skills/sentry) folder there is an alternative way to ac
 ### improve-skill
 
 In the [`skills/improve-skill`](skills/improve-skill) folder is a skill that helps analyze coding agent sessions to improve or create new skills.  It works with Claude Code, Pi, and Codex session files.  Ask the agent to "improve the sentry skill based on this session" or "create a new skill from this session" to use it.
+
+### ghidra
+
+In the [`skills/ghidra`](skills/ghidra) folder is a skill for automated reverse engineering using Ghidra's headless analyzer.  It can decompile binaries to C code, extract functions, strings, symbols, and analyze call graphs without needing the GUI.  Requires Ghidra installed (on macOS: `brew install --cask ghidra`).
 
 ## PI Coding Agent Themes
 
