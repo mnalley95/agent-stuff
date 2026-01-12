@@ -69,8 +69,7 @@ Example output:
 const HAIKU_MODEL_ID = "claude-haiku-4-5";
 
 /**
- * Check if the current model is a Claude Opus or Sonnet model from Anthropic provider.
- * If so, try to use claude-haiku-4-5 instead for cost efficiency.
+ * Prefer haiku for extraction when available, otherwise use the fast model.
  */
 async function selectExtractionModel(
 	currentModel: Model<Api>,
@@ -80,12 +79,6 @@ async function selectExtractionModel(
 	},
 ): Promise<Model<Api>> {
 	if (currentModel.provider !== "anthropic") {
-		return currentModel;
-	}
-
-	const modelId = currentModel.id.toLowerCase();
-	const isOpusOrSonnet = modelId.includes("opus") || modelId.includes("sonnet");
-	if (!isOpusOrSonnet) {
 		return currentModel;
 	}
 
