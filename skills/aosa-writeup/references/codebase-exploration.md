@@ -28,8 +28,19 @@ cat README.md
 
 ### For a GitHub repo
 ```bash
+# Overview (stars, description, language, topics)
 gh repo view owner/repo
-gh api repos/owner/repo/git/trees/HEAD?recursive=1 | jq '.tree[].path' | head -100
+
+# Full file tree
+gh api repos/owner/repo/git/trees/HEAD?recursive=1 | jq '.tree[].path' | head -150
+
+# README
+gh api repos/owner/repo/readme | jq -r '.content' | base64 -d
+
+# Dependency/module files
+gh api repos/owner/repo/contents/go.mod | jq -r '.content' | base64 -d
+gh api repos/owner/repo/contents/package.json | jq -r '.content' | base64 -d | jq '{dependencies,devDependencies}'
+gh api repos/owner/repo/contents/pyproject.toml | jq -r '.content' | base64 -d
 ```
 
 ### What to record
@@ -52,6 +63,12 @@ This rarely appears as a comment in the code. Look for it in:
 - Commit messages explaining major architectural decisions
 - Issue/PR discussions if accessible
 
+```bash
+# For a GitHub repo: scan commits and issues for architectural intent
+gh api repos/owner/repo/commits?per_page=30 | jq '.[].commit.message'
+gh api "repos/owner/repo/issues?state=all&per_page=20&labels=architecture,design" | jq '.[].title'
+```
+
 Ask yourself: "What is the simplest analogy that makes all the design choices feel inevitable?"
 
 ---
@@ -61,6 +78,8 @@ Ask yourself: "What is the simplest analogy that makes all the design choices fe
 **Goal:** Understand the layers and how they connect.
 
 ### Find the core abstractions
+
+For a local codebase:
 ```bash
 # Interface definitions (Go)
 grep -r "type.*interface" --include="*.go" -l
@@ -72,8 +91,27 @@ grep -r "type.*struct" --include="*.go" | grep -v "_test" | head -40
 grep -r "^class\|^export class\|^export interface" --include="*.ts" -l
 ```
 
+For a GitHub repo (use GitHub code search API):
+```bash
+# Find interfaces/abstractions by pattern
+gh api "search/code?q=type+interface+repo:owner/repo+language:go" | jq '[.items[] | .path]'
+gh api "search/code?q=export+interface+repo:owner/repo+language:typescript" | jq '[.items[] | .path]'
+
+# Read a specific file
+gh api repos/owner/repo/contents/path/to/file.go | jq -r '.content' | base64 -d
+
+# List a directory
+gh api repos/owner/repo/contents/internal | jq '.[].name'
+```
+
 ### Find the entry point and trace the call chain
 Start at `main()`, `cmd/`, or the primary CLI entry point. Follow the call chain 3–4 levels deep. This reveals the layers.
+
+For a GitHub repo, find and read the entry point:
+```bash
+gh api repos/owner/repo/contents/cmd | jq '.[].name'
+gh api repos/owner/repo/contents/main.go | jq -r '.content' | base64 -d
+```
 
 ### Find the storage layer
 How is data persisted? File, SQLite, Postgres, custom format? The storage choice is often the most architecturally significant decision.
@@ -111,7 +149,9 @@ Ask for each major component: "What would a naive implementation do here, and wh
 
 For each interesting design decision, read the relevant code in depth.
 
-### Useful patterns to look for:
+### Useful patterns to look for
+
+For a local codebase:
 
 **Registry pattern** (extensibility):
 ```bash
@@ -136,6 +176,21 @@ grep -r "pipeline\|Pipeline\|middleware\|Middleware" -l
 **Event system** (decoupling):
 ```bash
 grep -r "emit\|subscribe\|Event\|Handler" -l
+```
+
+For a GitHub repo (GitHub code search, then fetch the file):
+```bash
+# Search for a pattern across the repo
+gh api "search/code?q=Register+repo:owner/repo" | jq '[.items[] | .path]'
+gh api "search/code?q=middleware+repo:owner/repo" | jq '[.items[] | .path]'
+
+# Read a file once you've identified it
+gh api repos/owner/repo/contents/path/to/file.go | jq -r '.content' | base64 -d
+```
+
+Note: GitHub code search has rate limits (~10 req/min unauthenticated). Batch searches — identify all files of interest first, then fetch them. Cloning is faster if you need to search many patterns:
+```bash
+gh repo clone owner/repo /tmp/owner-repo
 ```
 
 ### When reading code for the writeup:
