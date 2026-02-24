@@ -83,10 +83,13 @@ Synthesize findings into these categories:
 ### 3. Output
 
 
-Save as markdown file: `[company-slug]-[YYYY-MM-DD].md`
+Save output to a folder named `[company-slug]` in the current working directory:
 
+1. Check if a folder named `[company-slug]` exists in the working directory (e.g., `acme-corp/`)
+2. If it does not exist, create it
+3. Save the markdown file inside that folder as `[company-slug]-[YYYY-MM-DD].md`
 
-Example: `acme-corp-2025-01-15.md`
+Example: `acme-corp/acme-corp-2025-01-15.md`
 
 
 ## Output Template
@@ -263,7 +266,7 @@ Example: `acme-corp-2025-01-15.md`
 
 - If Apify is available, use for LinkedIn company posts or deeper social data when web_fetch is insufficient
 - Always include the date in filename—profiles are point-in-time snapshots
-- Save output to `/mnt/user-data/outputs/` and present to user
+- Save output to `[company-slug]/[company-slug]-[YYYY-MM-DD].md` in the current working directory, creating the folder if it doesn't exist; present the final path to the user
 - If a dimension has no data, note "Not found" rather than omitting the section
 - Prioritize accuracy over completeness—don't invent details
 
