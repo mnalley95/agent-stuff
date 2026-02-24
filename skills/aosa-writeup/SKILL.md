@@ -1,6 +1,7 @@
 ---
 name: aosa-writeup
 description: Generates long-form architectural writeups in the style of "The Architecture of Open Source Applications" (AOSA) and the Latent Patterns architecture series. Use this skill when asked to write an architectural writeup, architecture chapter, AOSA-style article, or technical deep-dive about a codebase or GitHub repository. Triggers on requests like "write an architectural writeup of this repo", "create an AOSA-style chapter about X", "analyze this codebase and write it up", or "write a technical article about how X is architected".
+allowed-tools: Glob, Grep, Read, Bash, Task
 ---
 
 # AOSA Writeup
@@ -24,6 +25,8 @@ Before writing a single word, thoroughly explore the codebase. Load `references/
 5. **Read key code** — go deep on the relevant code for each decision
 6. **Find the diagrams** — gather material for component, sequence, and flow diagrams
 7. **Find the lessons** — generalizable insights a reader could apply elsewhere
+
+**Parallelizing phase 5 with subagents**: Once phases 1–4 are complete and the 3–5 design decisions are identified, dispatch one `general-purpose` subagent per decision using the Task tool. Each subagent receives the decision name, the relevant file paths or module areas already identified, and instructions to: read the code deeply, extract a simplified illustrative snippet (2–25 lines with `// Simplified:` comment), identify the trade-off, and return its findings as text. Collect all subagent results before proceeding to phases 6–7. Phases 1–4 and 6–7 are done by the orchestrating agent directly.
 
 Do not start writing until the pre-writing checklist in `references/codebase-exploration.md` is complete.
 
