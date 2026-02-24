@@ -54,3 +54,9 @@ These command files need customization before use. They live in [`plumbing-comma
 ### Release Management
 
 The plumbing release commands do not work without tuning!  But you can put claude to them and derive actually working ones.  I for instance use them in [absurd](h>
+
+## Credits
+
+* The [`/evaluate-company`](skills/evaluate-company), [`/trend-company`](skills/trend-company), and [`/compare-company`](skills/compare-company) skills were inspired by [Chris Lema's competitive intelligence approach](https://chrislema.com/competitive-intelligence-the-claude-way/).
+* Many skills were forked from [mitsuhiko/agent-stuff](https://github.com/mitsuhiko/agent-stuff).
+* The [`/aosa-writeup`](skills/aosa-writeup) skill was inspired by Geoffrey Huntley's writeups on [Latent Patterns](https://latentpatterns.com/).
