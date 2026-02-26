@@ -29,9 +29,10 @@ Use web_search and web_fetch to collect information across these dimensions:
 | Product/Features | `[company] features` or product page | Core capabilities, recent additions, integrations |
 | Blog/Content | `[company] blog` | Recent topics, publishing frequency, content themes |
 | Careers | `[company] careers jobs` | Open roles, departments hiring, growth signals |
-| News | `[company] news 2025` | Funding, partnerships, launches, executive changes |
+| News | `[company] news 2025` | Partnerships, launches, executive changes |
 | About/Team | About page | Founding story, team size, leadership, mission |
 | Customers | Case studies or customers page | Target segments, logo customers, use cases |
+| Funding | `[company] funding crunchbase` → fetch `https://www.crunchbase.com/organization/[slug]`; also `[company] funding round raised` | Individual rounds (date, amount, type, lead investors), total raised, latest valuation, IPO/acquisition status |
 
 
 For each search, fetch the most relevant page to extract details. Skip dimensions that return no useful results.
@@ -49,6 +50,7 @@ For each search, fetch the most relevant page to extract details. Skip dimension
 | C | Pricing, Product/Features |
 | D | Blog/Content, Customers |
 | E | Careers, News, About/Team |
+| F | Funding |
 
 Each subagent should return its raw findings as text. Aggregate all results, then proceed to the Analyze step.
 
@@ -74,7 +76,10 @@ Synthesize findings into these categories:
 **Content Strategy**: What topics do they publish about? How often? What formats?
 
 
-**Growth Signals**: Hiring velocity, departments expanding, funding, new markets
+**Growth Signals**: Hiring velocity, departments expanding, new markets
+
+
+**Funding & Financials**: Total capital raised, funding stage, investor profile, last round details, implied valuation trajectory, public/private/acquired status
 
 
 **Strategic Direction**: Based on all signals, where are they headed?
@@ -230,6 +235,33 @@ Example: `acme-corp/acme-corp-2025-01-15.md`
 
 - [Date]: [News item 1]
 - [Date]: [News item 2]
+
+
+---
+
+
+## Funding
+
+
+**Status**: [Private / Public (ticker) / Acquired]
+
+
+**Total Raised**: [$X]
+
+
+**Funding Rounds**:
+| Round | Date | Amount | Lead Investor(s) |
+|-------|------|--------|-----------------|
+| [Series X] | [YYYY-MM] | [$X] | [Investor] |
+
+
+**Notable Investors**: [Key VCs, strategics, or angels]
+
+
+**Latest Valuation**: [$X (if disclosed) / Not disclosed]
+
+
+**Funding Notes**: [Strategic investors, burn signals, runway implications, or anything notable about the cap structure]
 
 
 ---
