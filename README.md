@@ -22,6 +22,20 @@ All skill files are in the [`skills`](skills) folder:
 * [`/frontend-design`](skills/frontend-design) - Claude Skill for designing and implementing distinctive frontend interfaces
 * [`/uv`](skills/uv) - Claude Skill for using `uv` for Python dependency management and script execution
 * [`/mermaid`](skills/mermaid) - Claude Skill for creating and validating Mermaid diagrams with the official Mermaid CLI
+* [`/plan-ceo-review`](skills/plan-ceo-review) - CEO/founder-mode plan review for rethinking problems and finding 10-star product ideas
+* [`/plan-eng-review`](skills/plan-eng-review) - Engineering manager-mode plan review for locking in execution plans
+* [`/retro`](skills/retro) - Weekly engineering retrospective analyzing commit history, work patterns, and code quality metrics
+* [`/review`](skills/review) - Pre-landing PR review for SQL safety, LLM trust boundary violations, and conditional side effects
+* [`/ship`](skills/ship) - Ship workflow for merging, testing, bumping versions, updating changelogs, and creating PRs
+
+### Sourced from gstack
+
+The following skills are sourced from [mnalley95/gstack](https://github.com/mnalley95/gstack), a fork of Garry Tan's gstack repository:
+* `/plan-ceo-review`
+* `/plan-eng-review`
+* `/retro`
+* `/review`
+* `/ship`
 
 ## PI Coding Agent Extensions
 
