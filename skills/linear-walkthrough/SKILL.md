@@ -7,12 +7,23 @@ description: Create a detailed, linear code walkthrough in `walkthrough.md` for 
 
 Use this skill to produce a repo-local `walkthrough.md` that explains the codebase in the order a reader should follow it.
 
+## When to use
+
+This technique is most valuable when you need to understand code you didn't write or don't remember writing:
+
+- **Vibe-coded projects** — you prompted an agent to build something and it works, but you don't understand the implementation.
+- **Inherited codebases** — you're picking up a project from someone else.
+- **Forgotten personal projects** — you wrote it months ago and lost the mental model.
+
+The core insight: by forcing all code snippets to be captured via shell commands (`sed`, `grep`, `cat`) through `showboat exec`, the walkthrough contains **real code from the repo**, not hallucinated approximations. This is what makes the technique trustworthy.
+
 ## Goals
 
 - Read the source before writing.
 - Explain the system as a linear story, not a bag of unrelated modules.
-- Use `showboat` to make the walkthrough reproducible.
+- Use `showboat` to make the walkthrough reproducible and grounded in real code.
 - Mix commentary with small, relevant code excerpts and command output.
+- Tailor depth to the reader — a senior engineer familiar with the stack needs less language-level explanation than someone new to it.
 
 ## Workflow
 
@@ -32,6 +43,8 @@ The walkthrough should usually move through:
 4. important data structures and state transitions
 5. secondary subsystems that support the main path
 6. tests, edge cases, or operational details that clarify behavior
+
+Not every repo fits this pattern cleanly. Libraries and frameworks may not have a single entrypoint or linear control flow — adapt the ordering to whatever sequence will build understanding most naturally (e.g., public API surface first, then internals that implement it).
 
 ### 2. Learn `showboat` first
 
@@ -53,10 +66,10 @@ Treat that help text as the contract. The commands you will normally need are:
 
 ### 3. Create `walkthrough.md`
 
-If `walkthrough.md` does not exist, initialize it:
+If `walkthrough.md` does not exist, initialize it with a title that names the project:
 
 ```bash
-uvx showboat init walkthrough.md "Code Walkthrough"
+uvx showboat init walkthrough.md "MyProject Walkthrough"
 ```
 
 If it already exists, read it and extend or replace it deliberately rather than blindly appending duplicate material.
@@ -70,7 +83,7 @@ Use `showboat note` for commentary that explains:
 - how control moves from one component to the next
 - what invariants, branches, or side effects matter
 
-Use `showboat exec` to capture the exact snippets you are discussing. Prefer shell commands such as:
+Use `showboat exec` to capture the exact snippets you are discussing. This is critical — **never type out code manually in notes**. Always use a shell command to extract it so the walkthrough contains verified, real code. Prefer commands such as:
 
 - `sed -n 'start,endp' <file>`
 - `rg -n '<pattern>' <path>`
@@ -110,11 +123,13 @@ Before stopping:
 
 - Read `walkthrough.md` end to end.
 - Make sure the story is detailed and internally consistent.
-- Verify the document if practical:
+- Verify the document by running:
 
 ```bash
 uvx showboat verify walkthrough.md
 ```
+
+This re-runs every `exec` command and confirms the output still matches. Fix any mismatches before considering the walkthrough done.
 
 ## Quality bar
 
@@ -124,3 +139,4 @@ The finished walkthrough should:
 - include enough detail to explain real behavior, not just labels
 - quote only the code needed to support the explanation
 - stay grounded in source excerpts captured with `showboat exec`
+- be tailored to the reader's level of familiarity with the language and stack
