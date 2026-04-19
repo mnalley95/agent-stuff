@@ -1,0 +1,381 @@
+#!/usr/bin/env python3
+
+"""
+Deterministic, context-efficient wrapper for noisy test/build/lint commands.
+
+Success: print a single concise line.
+Failure: print a concise failure line, then the captured output.
+"""
+
+from __future__ import annotations
+
+import argparse
+import os
+import re
+import shlex
+import signal
+import subprocess
+import sys
+import tempfile
+import time
+from dataclasses import dataclass
+from typing import Callable
+
+
+FRAMEWORKS = (
+    "auto",
+    "generic",
+    "vitest",
+    "playwright",
+    "pytest",
+    "jest",
+    "go",
+    "cargo",
+    "maven",
+    "gradle",
+)
+
+ANSI_RE = re.compile(
+    r"""
+    \x1B  # ESC
+    (?:
+        \[[0-?]*[ -/]*[@-~]   # CSI
+      | \][^\x07]*(?:\x07|\x1B\\)  # OSC
+      | [PX^_][^\x1B]*\x1B\\  # DCS/SOS/PM/APC
+      | [@-_]                 # single-character escape
+    )
+    """,
+    re.VERBOSE,
+)
+
+COUNT_RE = re.compile(
+    r"(?P<count>\d+)\s+(?P<label>passed|failed|skipped|todo|xfailed|xpassed|flaky|total)\b",
+    re.IGNORECASE,
+)
+
+
+@dataclass
+class ResultSummary:
+    framework: str
+    details: list[str]
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="ctxrun",
+        description=(
+            "Run a command with context-efficient output. "
+            "Successful runs collapse to one line; failures print the captured output."
+        ),
+    )
+    parser.add_argument(
+        "-d",
+        "--desc",
+        help="Human-readable label for the command, for example 'unit tests' or 'lint'.",
+    )
+    parser.add_argument(
+        "-f",
+        "--framework",
+        choices=FRAMEWORKS,
+        default="auto",
+        help="Parser to use for success summaries. Default: auto.",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        default=os.environ.get("VERBOSE") == "1",
+        help="Stream command output directly instead of capturing it.",
+    )
+    parser.add_argument(
+        "--show-command-on-failure",
+        action="store_true",
+        help="Include the command line in failure output.",
+    )
+    parser.add_argument(
+        "--raw-failure-output",
+        action="store_true",
+        help="Do not strip ANSI control sequences from captured failure output.",
+    )
+    parser.add_argument(
+        "command",
+        nargs=argparse.REMAINDER,
+        help="Command to run. Put '--' before the command.",
+    )
+    args = parser.parse_args()
+    if args.command and args.command[0] == "--":
+        args.command = args.command[1:]
+    if not args.command:
+        parser.error("missing command. Example: ctxrun --desc 'unit tests' -- pnpm vitest run")
+    return args
+
+
+def success_marker() -> str:
+    return "✓" if os.environ.get("CTXRUN_SYMBOLS") == "unicode" else "OK"
+
+
+def failure_marker() -> str:
+    return "✗" if os.environ.get("CTXRUN_SYMBOLS") == "unicode" else "FAIL"
+
+
+def normalize_output(text: str) -> str:
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    text = ANSI_RE.sub("", text)
+    return text
+
+
+def format_duration(seconds: float) -> str:
+    if seconds < 10:
+        return f"{seconds:.1f}s"
+    whole = int(round(seconds))
+    if whole < 60:
+        return f"{whole}s"
+    minutes, secs = divmod(whole, 60)
+    if minutes < 60:
+        return f"{minutes}m{secs:02d}s"
+    hours, minutes = divmod(minutes, 60)
+    return f"{hours}h{minutes:02d}m{secs:02d}s"
+
+
+def detect_framework(command: list[str]) -> str:
+    lowered = [part.lower() for part in command]
+    joined = " ".join(lowered)
+    if any("vitest" == part or part.endswith("/vitest") for part in lowered) or " vitest " in f" {joined} ":
+        return "vitest"
+    if any("playwright" in part for part in lowered):
+        return "playwright"
+    if any("pytest" == part or part.endswith("/pytest") for part in lowered):
+        return "pytest"
+    if any("jest" == part or part.endswith("/jest") for part in lowered):
+        return "jest"
+    if len(lowered) >= 2 and lowered[0] == "go" and lowered[1] == "test":
+        return "go"
+    if lowered and lowered[0] == "cargo":
+        return "cargo"
+    if any(part in {"mvn", "mvnw"} or "maven" in part for part in lowered):
+        return "maven"
+    if any("gradle" in part or part in {"./gradlew", "gradlew"} for part in lowered):
+        return "gradle"
+    return "generic"
+
+
+def auto_desc(command: list[str], framework: str) -> str:
+    if framework != "generic":
+        return framework
+    head = os.path.basename(command[0])
+    return head or "command"
+
+
+def parse_status_counts(text: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for match in COUNT_RE.finditer(text):
+        counts[match.group("label").lower()] = int(match.group("count"))
+    return counts
+
+
+def count_details(total: int | None, noun: str, counts: dict[str, int], extra_labels: list[str]) -> list[str]:
+    details: list[str] = []
+    if total:
+        label = noun if total == 1 else f"{noun}s"
+        details.append(f"{total} {label}")
+    for label in extra_labels:
+        value = counts.get(label)
+        if value:
+            details.append(f"{value} {label}")
+    return details
+
+
+def find_last_matching_line(text: str, prefix: str) -> str | None:
+    matched: str | None = None
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if line.startswith(prefix):
+            matched = line
+    return matched
+
+
+def parse_vitest_summary(text: str) -> ResultSummary:
+    file_line = find_last_matching_line(text, "Test Files")
+    test_line = find_last_matching_line(text, "Tests")
+    details: list[str] = []
+
+    if file_line:
+        counts = parse_status_counts(file_line)
+        total = counts.get("total") or counts.get("passed")
+        details.extend(count_details(total, "file", counts, ["skipped", "todo"]))
+    if test_line:
+        counts = parse_status_counts(test_line)
+        total = counts.get("total") or sum(
+            value for key, value in counts.items() if key in {"passed", "failed", "skipped", "todo"}
+        )
+        test_details = count_details(total, "test", counts, ["skipped", "todo"])
+        if details and test_details:
+            details = [details[0], *test_details]
+        else:
+            details.extend(test_details)
+    return ResultSummary(framework="vitest", details=details)
+
+
+def parse_playwright_summary(text: str) -> ResultSummary:
+    details: list[str] = []
+    summary_line: str | None = None
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if re.search(r"\b\d+\s+passed\b", line):
+            summary_line = line
+    if summary_line:
+        counts = parse_status_counts(summary_line)
+        total = sum(value for key, value in counts.items() if key in {"passed", "failed", "skipped", "flaky"})
+        details.extend(count_details(total, "test", counts, ["skipped", "flaky"]))
+    return ResultSummary(framework="playwright", details=details)
+
+
+def parse_pytest_summary(text: str) -> ResultSummary:
+    details: list[str] = []
+    summary_line: str | None = None
+    for raw_line in text.splitlines():
+        line = raw_line.strip().strip("=")
+        if " passed" in line and " in " in line:
+            summary_line = line
+    if summary_line:
+        counts = parse_status_counts(summary_line)
+        total = sum(value for key, value in counts.items() if key in {"passed", "failed", "skipped", "xfailed", "xpassed"})
+        details.extend(count_details(total, "test", counts, ["skipped", "xfailed", "xpassed"]))
+    return ResultSummary(framework="pytest", details=details)
+
+
+def parse_jest_summary(text: str) -> ResultSummary:
+    suite_line = find_last_matching_line(text, "Test Suites:")
+    test_line = find_last_matching_line(text, "Tests:")
+    details: list[str] = []
+    if suite_line:
+        counts = parse_status_counts(suite_line)
+        total = counts.get("total") or sum(value for key, value in counts.items() if key in {"passed", "failed", "skipped"})
+        if total:
+            details.append(f"{total} suites")
+    if test_line:
+        counts = parse_status_counts(test_line)
+        total = counts.get("total") or sum(value for key, value in counts.items() if key in {"passed", "failed", "skipped"})
+        test_details = count_details(total, "test", counts, ["skipped"])
+        details.extend(test_details)
+    return ResultSummary(framework="jest", details=details)
+
+
+def parse_generic_summary(_: str) -> ResultSummary:
+    return ResultSummary(framework="generic", details=[])
+
+
+PARSERS: dict[str, Callable[[str], ResultSummary]] = {
+    "generic": parse_generic_summary,
+    "vitest": parse_vitest_summary,
+    "playwright": parse_playwright_summary,
+    "pytest": parse_pytest_summary,
+    "jest": parse_jest_summary,
+    "go": parse_generic_summary,
+    "cargo": parse_generic_summary,
+    "maven": parse_generic_summary,
+    "gradle": parse_generic_summary,
+}
+
+
+def build_success_line(desc: str, framework: str, output: str, elapsed_seconds: float) -> str:
+    summary = PARSERS.get(framework, parse_generic_summary)(output)
+    details = list(summary.details)
+    details.append(format_duration(elapsed_seconds))
+    suffix = f" ({', '.join(details)})" if details else ""
+    return f"{success_marker()} {desc}{suffix}"
+
+
+def build_failure_line(desc: str, framework: str, elapsed_seconds: float, returncode: int) -> str:
+    details = [format_duration(elapsed_seconds), f"exit {returncode}"]
+    if framework != "generic":
+        details.insert(0, framework)
+    return f"{failure_marker()} {desc} ({', '.join(details)})"
+
+
+def format_command(command: list[str]) -> str:
+    return shlex.join(command)
+
+
+def run_verbose(command: list[str], desc: str, framework: str, show_command_on_failure: bool) -> int:
+    started = time.monotonic()
+    try:
+        completed = subprocess.run(command, check=False)
+    except FileNotFoundError:
+        print(f"{failure_marker()} {desc} (missing command: {command[0]})")
+        return 127
+    elapsed = time.monotonic() - started
+    if completed.returncode == 0:
+        print(f"{success_marker()} {desc} ({format_duration(elapsed)})")
+        return 0
+    print(build_failure_line(desc, framework, elapsed, normalize_returncode(completed.returncode)))
+    if show_command_on_failure:
+        print(format_command(command))
+    return normalize_returncode(completed.returncode)
+
+
+def normalize_returncode(returncode: int) -> int:
+    if returncode >= 0:
+        return returncode
+    return 128 + abs(returncode)
+
+
+def signal_name(returncode: int) -> str | None:
+    if returncode >= 0:
+        return None
+    try:
+        return signal.Signals(-returncode).name
+    except ValueError:
+        return None
+
+
+def main() -> int:
+    args = parse_args()
+    framework = detect_framework(args.command) if args.framework == "auto" else args.framework
+    desc = args.desc or auto_desc(args.command, framework)
+
+    if args.verbose:
+        return run_verbose(args.command, desc, framework, args.show_command_on_failure)
+
+    started = time.monotonic()
+    with tempfile.TemporaryFile(mode="w+b") as capture:
+        try:
+            completed = subprocess.run(
+                args.command,
+                stdout=capture,
+                stderr=subprocess.STDOUT,
+                check=False,
+            )
+        except FileNotFoundError:
+            print(f"{failure_marker()} {desc} (missing command: {args.command[0]})")
+            return 127
+        elapsed = time.monotonic() - started
+        capture.seek(0)
+        raw_output = capture.read().decode("utf-8", errors="replace")
+
+    cleaned_output = normalize_output(raw_output)
+    returncode = normalize_returncode(completed.returncode)
+
+    if completed.returncode == 0:
+        print(build_success_line(desc, framework, cleaned_output, elapsed))
+        return 0
+
+    print(build_failure_line(desc, framework, elapsed, returncode))
+    if args.show_command_on_failure:
+        print(format_command(args.command))
+    if completed.returncode < 0:
+        name = signal_name(completed.returncode)
+        if name:
+            print(f"terminated by signal {name}")
+    failure_output = raw_output if args.raw_failure_output else cleaned_output
+    if failure_output.strip():
+        if not failure_output.endswith("\n"):
+            failure_output = f"{failure_output}\n"
+        sys.stdout.write(failure_output)
+    else:
+        print("(no output captured)")
+    return returncode
+
+
+if __name__ == "__main__":
+    sys.exit(main())
