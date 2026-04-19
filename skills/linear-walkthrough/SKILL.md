@@ -5,7 +5,7 @@ description: Create a detailed, linear code walkthrough in `walkthrough.md` for 
 
 # Linear Walkthrough
 
-Use this skill to produce a repo-local `walkthrough.md` that explains the codebase in the order a reader should follow it.
+Use this skill to produce a repo-local `walkthrough.md` that explains the codebase in the order a reader should follow it. Explain key concepts, design patterns, contracts, system boundaries, as you go
 
 ## When to use
 
@@ -24,6 +24,7 @@ The core insight: by forcing all code snippets to be captured via shell commands
 - Use `showboat` to make the walkthrough reproducible and grounded in real code.
 - Mix commentary with small, relevant code excerpts and command output.
 - Tailor depth to the reader — a senior engineer familiar with the stack needs less language-level explanation than someone new to it.
+- Explain key concepts, design patterns, contracts, system boundaries, as you go
 
 ## Workflow
 
@@ -38,13 +39,14 @@ Before creating the walkthrough:
 The walkthrough should usually move through:
 
 1. repo purpose and top-level shape
-2. entrypoint or starting command
-3. primary control flow
-4. important data structures and state transitions
-5. secondary subsystems that support the main path
-6. tests, edge cases, or operational details that clarify behavior
+2. Key concepts, design patterns, contracts, system boundaries, as you go
+3. entrypoint or starting command
+4. primary control flow
+5. important data structures and state transitions
+6. secondary subsystems that support the main path
+7. tests, edge cases, or operational details that clarify behavior
 
-Not every repo fits this pattern cleanly. Libraries and frameworks may not have a single entrypoint or linear control flow — adapt the ordering to whatever sequence will build understanding most naturally (e.g., public API surface first, then internals that implement it).
+Items from #2 should be referred back to as you go. Not every repo fits this pattern cleanly. Libraries and frameworks may not have a single entrypoint or linear control flow — adapt the ordering to whatever sequence will build understanding most naturally (e.g., public API surface first, then internals that implement it).
 
 ### 2. Learn `showboat` first
 
@@ -74,7 +76,51 @@ uvx showboat init walkthrough.md "MyProject Walkthrough"
 
 If it already exists, read it and extend or replace it deliberately rather than blindly appending duplicate material.
 
-### 4. Build the walkthrough with notes plus evidence
+### 4. Add process flow diagrams
+
+Before writing prose, sketch the key control flows as **Mermaid flowcharts**. Mermaid is rendered natively by GitHub, GitLab, VS Code, and Obsidian — it requires no extra tooling and lives inside a fenced code block, making it a first-class citizen of any markdown document.
+
+Insert diagrams with `showboat note` by passing the full mermaid block as the text argument. The note is raw markdown, so the fenced block renders as a diagram:
+
+```bash
+uvx showboat note walkthrough.md "## Execution flow overview
+
+\`\`\`mermaid
+flowchart TD
+    A[CLI entrypoint] --> B[parse args]
+    B --> C{subcommand?}
+    C -->|sync| D[fetch documents]
+    C -->|tag| E[apply_tags_to_documents]
+    D --> F[upsert store]
+    E --> G{idempotent?}
+    G -->|yes, skip| H[advance cursor]
+    G -->|no| I[fetch_document_tags API]
+    I --> J[upsert_tagging_state]
+    J --> H
+\`\`\`
+"
+```
+
+**When to add a diagram:**
+
+- At the top of the walkthrough as a map of the full execution path.
+- At each major branching point (e.g. a dispatch loop, retry logic, state machine).
+- Wherever prose alone would require the reader to hold more than 3–4 steps in their head simultaneously.
+
+**Diagram types to use by situation:**
+
+| Situation | Mermaid type |
+|---|---|
+| Overall execution path / control flow | `flowchart TD` or `flowchart LR` |
+| State transitions (e.g. document states) | `stateDiagram-v2` |
+| Sequence of calls between components | `sequenceDiagram` |
+| Data pipeline stages | `flowchart LR` with labeled edges |
+
+Keep diagrams focused. One tight diagram beats a sprawling one — split complex flows into two smaller diagrams with a prose bridge between them.
+
+**Do not manually type code into diagrams.** Read the source first, then derive node labels and edges from what the code actually does. A diagram that misrepresents the code is worse than no diagram.
+
+### 5. Build the walkthrough with notes plus evidence
 
 Use `showboat note` for commentary that explains:
 
@@ -99,7 +145,7 @@ uvx showboat note walkthrough.md "The walkthrough starts at the CLI entrypoint, 
 uvx showboat exec walkthrough.md bash "sed -n '1,120p' src/cli.ts"
 ```
 
-### 5. Keep the narrative linear
+### 6. Keep the narrative linear
 
 Do not organize the document as a directory listing. Each section should answer:
 
@@ -110,14 +156,14 @@ Do not organize the document as a directory listing. Each section should answer:
 
 When a module exists mainly to support another step, introduce it at the point where the main flow first depends on it.
 
-### 6. Use `showboat` correctly
+### 7. Use `showboat` correctly
 
 - Prefer many small `note` and `exec` entries over a few huge ones.
 - If an `exec` step is wrong or noisy, remove it with `uvx showboat pop walkthrough.md` and redo it.
 - Keep commands reproducible from the repo root. Use `--workdir` if needed.
 - Use shell snippets that are safe to re-run and stable enough for `showboat verify`.
 
-### 7. Finish cleanly
+### 8. Finish cleanly
 
 Before stopping:
 
@@ -140,3 +186,5 @@ The finished walkthrough should:
 - quote only the code needed to support the explanation
 - stay grounded in source excerpts captured with `showboat exec`
 - be tailored to the reader's level of familiarity with the language and stack
+- include at least one Mermaid flow diagram — typically at the top — so a reader can orient before diving into prose and code snippets
+- have diagrams that are accurate to the source, not illustrative guesses

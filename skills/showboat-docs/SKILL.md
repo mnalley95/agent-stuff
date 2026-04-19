@@ -5,7 +5,9 @@ description: Use after building or changing code to manually test it works, capt
 
 # Agentic Manual Testing with Showboat
 
-Never assume code you generate works until you've executed it. Automated tests are valuable but insufficient — they can pass while the code crashes, misses UI elements, or fails on untested edge cases. **You should witness the feature working before calling it done.**
+Never assume code you generate works until you've executed it. Automated tests are valuable but insufficient — they can pass while the code crashes, misses UI elements, or fails on untested edge cases. **You should witness the feature working before calling it done.** 
+
+The above is important - this is about proving that a feature works. It is not sufficient to run the test suite. Document, explore, and think through edge cases that may not be captured in the tests. Document their work and show proof that things work as intended.
 
 Use Showboat to capture your manual testing as a reproducible, verifiable document.
 
@@ -81,3 +83,9 @@ uvx showboat verify docs/showboat/feature-name.md
 - When a command intentionally fails (to prove validation works), capture it explicitly.
 - If `verify` fails after edits, re-run the broken `exec` blocks rather than hand-editing output.
 - Keep documents focused on proof. Design discussion belongs elsewhere.
+
+## Repo-specific guidance
+- Check to see if there are other showboat docs in './docs/showboat/' if so, save your new document there. If not, create that directory.
+
+## Resources
+- https://simonwillison.net/guides/agentic-engineering-patterns/agentic-manual-testing/
