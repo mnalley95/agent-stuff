@@ -1,4 +1,19 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Local agent state
 .pi/todos
+.claude/settings.json
+
+# Build and coverage artifacts
+coverage/
+dist/
 *.profraw
+*.tsbuildinfo
+
+# Logs and temp files
+*.log
+tmp/
+
+# OS files
 .DS_Store
