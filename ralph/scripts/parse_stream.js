@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 // Parse Claude stream-json, Cursor agent --output-format stream-json, Codex exec --json (JSONL),
-// or Gemini --output-format stream-json for readable display. Lives in scripts/ next to loop_streamed.sh.
+// Gemini --output-format stream-json, or Pi --mode json for readable display.
+// Lives in scripts/ next to loop_streamed.sh.
 // Usage from repo root:
 //   claude ... --output-format stream-json | node scripts/parse_stream.js
 //   agent -p '...' --output-format stream-json --stream-partial-output | node scripts/parse_stream.js
 //   codex exec ... --json | node scripts/parse_stream.js
 //   gemini -p '...' --output-format stream-json | node scripts/parse_stream.js
+//   pi --mode json '...' | node scripts/parse_stream.js
 
 const readline = require('readline');
 
@@ -37,9 +39,57 @@ let lastToolName = null; // Track for matching results
 // Track message state
 let messageCount = 0;
 let toolUseCount = 0;
+let piSessionStartedAt = 0;
+let piUsageTotals = {
+  input: 0,
+  output: 0,
+  cacheRead: 0,
+  cost: 0,
+};
 
 // Cursor agent stream-json: assistant text may arrive as cumulative strings or split fragments; tool_call resets a turn
 let cursorAssistantBuffer = '';
+
+function formatDurationMs(durationMs) {
+  const duration = Math.floor((durationMs || 0) / 1000);
+  const minutes = Math.floor(duration / 60);
+  const seconds = duration % 60;
+  return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+}
+
+function titleCaseToolName(name) {
+  if (!name || typeof name !== 'string') return 'Tool';
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+function printIndentedDetails(details) {
+  if (!details) return;
+  const lines = details.split('\n');
+  const maxLines = 3;
+  lines.slice(0, maxLines).forEach((line) => {
+    const truncated = line.length > 100 ? line.substring(0, 97) + '...' : line;
+    console.log(`${colors.dim}   ${truncated}${colors.reset}`);
+  });
+  if (lines.length > maxLines) {
+    console.log(`${colors.dim}   ... +${lines.length - maxLines} more lines${colors.reset}`);
+  }
+}
+
+function printFormattedResult(formatted) {
+  if (!formatted) return;
+  formatted.split('\n').forEach((line) => {
+    console.log(`${colors.gray}     ${line}${colors.reset}`);
+  });
+}
+
+function accumulatePiUsage(message) {
+  const usage = message?.usage;
+  if (!usage) return;
+  piUsageTotals.input += Number(usage.input ?? 0);
+  piUsageTotals.output += Number(usage.output ?? 0);
+  piUsageTotals.cacheRead += Number(usage.cacheRead ?? 0);
+  piUsageTotals.cost += Number(usage.cost?.total ?? 0);
+}
 
 function isCursorAgentEvent(data) {
   if (!data || typeof data.type !== 'string') return false;
@@ -354,6 +404,127 @@ function handleGeminiEvent(data) {
   }
 }
 
+function isPiEvent(data) {
+  const t = data?.type;
+  return (
+    typeof t === 'string' &&
+    (
+      t === 'session' ||
+      t === 'agent_start' ||
+      t === 'agent_end' ||
+      t === 'turn_start' ||
+      t === 'turn_end' ||
+      t === 'message_start' ||
+      t === 'message_update' ||
+      t === 'message_end' ||
+      t === 'tool_execution_start' ||
+      t === 'tool_execution_update' ||
+      t === 'tool_execution_end' ||
+      t === 'queue_update' ||
+      t === 'compaction_start' ||
+      t === 'compaction_end' ||
+      t === 'auto_retry_start' ||
+      t === 'auto_retry_end'
+    )
+  );
+}
+
+function handlePiEvent(data) {
+  switch (data.type) {
+    case 'session':
+      piSessionStartedAt = Date.now();
+      piUsageTotals = {
+        input: 0,
+        output: 0,
+        cacheRead: 0,
+        cost: 0,
+      };
+      break;
+
+    case 'message_update': {
+      const event = data.assistantMessageEvent;
+      if (!event || typeof event.type !== 'string') break;
+
+      if (event.type === 'text_delta' && typeof event.delta === 'string') {
+        process.stdout.write(event.delta);
+      } else if (
+        (event.type === 'thinking_delta' || event.type === 'reasoning_delta') &&
+        typeof event.delta === 'string' &&
+        event.delta.length > 0
+      ) {
+        process.stderr.write(`${colors.dim}${event.delta}${colors.reset}`);
+      }
+      break;
+    }
+
+    case 'message_end':
+      if (data.message?.role === 'assistant') {
+        accumulatePiUsage(data.message);
+      }
+      break;
+
+    case 'tool_execution_start': {
+      toolUseCount++;
+      const toolName = data.toolName || 'tool';
+      console.log(`\n${colors.cyan}🔧 ${titleCaseToolName(toolName)}${colors.reset}`);
+      const details = formatToolDetails(toolName, data.args || {});
+      printIndentedDetails(details);
+      break;
+    }
+
+    case 'tool_execution_end': {
+      if (data.isError) {
+        console.log(`${colors.red}   ✗ Error:${colors.reset}`);
+      } else {
+        console.log(`${colors.green}   ↳ Result:${colors.reset}`);
+      }
+
+      const formatted = formatToolResult(data.result);
+      printFormattedResult(formatted);
+      break;
+    }
+
+    case 'compaction_start':
+      console.log(
+        `${colors.yellow}♻️  Compacting context (${data.reason || 'manual'})...${colors.reset}`
+      );
+      break;
+
+    case 'compaction_end':
+      if (data.errorMessage) {
+        console.log(`${colors.yellow}⚠️  Compaction: ${data.errorMessage}${colors.reset}`);
+      }
+      break;
+
+    case 'auto_retry_start':
+      console.log(
+        `${colors.yellow}↻ Auto-retry ${data.attempt}/${data.maxAttempts}: ${data.errorMessage}${colors.reset}`
+      );
+      break;
+
+    case 'auto_retry_end':
+      if (!data.success && data.finalError) {
+        console.log(`${colors.red}❌ Retry failed: ${data.finalError}${colors.reset}`);
+      }
+      break;
+
+    case 'agent_end': {
+      const cached = piUsageTotals.cacheRead ?? 0;
+      const cachedNote = cached > 0 ? ` (${cached.toLocaleString()} cached)` : '';
+      const durationMs = piSessionStartedAt ? Date.now() - piSessionStartedAt : 0;
+
+      console.log('\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log(
+        `${colors.green}✅ Done${colors.reset} in ${formatDurationMs(durationMs)} | Cost: $${piUsageTotals.cost.toFixed(4)} | Tokens: ↓${piUsageTotals.input.toLocaleString()}${cachedNote} ↑${piUsageTotals.output.toLocaleString()} | Tools: ${toolUseCount}`
+      );
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
 function formatCodexCommand(cmd) {
   if (!cmd || typeof cmd !== 'string') return '';
   const max = 200;
@@ -443,32 +614,36 @@ function handleCodexEvent(data) {
 // Format tool details based on name and input
 function formatToolDetails(name, input) {
   try {
-    const params = JSON.parse(input);
-    switch (name) {
-      case 'Bash':
+    const params = typeof input === 'string' ? JSON.parse(input) : input;
+    if (!params || typeof params !== 'object') return null;
+
+    switch (String(name || '').toLowerCase()) {
+      case 'bash':
         return params.command ? `$ ${params.command}` : null;
-      case 'Task':
+      case 'task': {
         const desc = params.description || '';
         const type = params.subagent_type || '';
-        return type ? `${type}(${desc})` : desc;
-      case 'Read':
-        return params.file_path ? `📄 ${params.file_path}` : null;
-      case 'Write':
-        return params.file_path ? `✏️  ${params.file_path}` : null;
-      case 'Edit':
-        return params.file_path ? `🔨 ${params.file_path}` : null;
-      case 'Glob':
+        return type ? `${type}(${desc})` : desc || null;
+      }
+      case 'read':
+        return params.file_path || params.path ? `📄 ${params.file_path || params.path}` : null;
+      case 'write':
+        return params.file_path || params.path ? `✏️  ${params.file_path || params.path}` : null;
+      case 'edit':
+        return params.file_path || params.path ? `🔨 ${params.file_path || params.path}` : null;
+      case 'glob':
+      case 'find':
         return params.pattern ? `🔍 ${params.pattern}` : null;
-      case 'Grep':
+      case 'grep':
         return params.pattern ? `🔎 "${params.pattern}"` : null;
-      case 'WebFetch':
+      case 'webfetch':
         return params.url ? `🌐 ${params.url}` : null;
-      case 'WebSearch':
+      case 'websearch':
         return params.query ? `🔍 "${params.query}"` : null;
-      case 'TodoWrite':
-      case 'TaskCreate':
+      case 'todowrite':
+      case 'taskcreate':
         return params.todos ? `${params.todos.length} tasks` : null;
-      default:
+      default: {
         // For other tools, show first meaningful param
         const keys = Object.keys(params);
         if (keys.length > 0) {
@@ -479,6 +654,7 @@ function formatToolDetails(name, input) {
           }
         }
         return null;
+      }
     }
   } catch (e) {
     return null;
@@ -500,8 +676,15 @@ function formatToolResult(content) {
     }
   } else if (typeof content === 'string') {
     text = content;
-  } else if (content.text) {
-    text = content.text;
+  } else if (content && typeof content === 'object') {
+    if (Array.isArray(content.content)) {
+      return formatToolResult(content.content);
+    }
+    if (typeof content.text === 'string') {
+      text = content.text;
+    } else if (typeof content.output === 'string') {
+      text = content.output;
+    }
   }
 
   if (!text) return null;
@@ -543,6 +726,11 @@ rl.on('line', (line) => {
 
     if (isCursorAgentEvent(data)) {
       handleCursorEvent(data);
+      return;
+    }
+
+    if (isPiEvent(data)) {
+      handlePiEvent(data);
       return;
     }
 

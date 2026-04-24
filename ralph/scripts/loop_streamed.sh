@@ -1,23 +1,24 @@
 #!/bin/bash
 set -euo pipefail
 
-# Usage (from repo root): ./scripts/loop_streamed.sh [claude|gemini|codex|cursor] [plan|build] [max_iterations]
+# Usage (from repo root): ./scripts/loop_streamed.sh [claude|gemini|codex|cursor|pi] [plan|build] [max_iterations]
 # Prompts are read from utils/PROMPT_*.md (paths resolved from this script's location).
 # Arguments can be provided in any order.
 # Examples:
 #   ./scripts/loop_streamed.sh                      # Claude, build mode, unlimited tasks
 #   ./scripts/loop_streamed.sh gemini               # Gemini, build mode, unlimited tasks
+#   ./scripts/loop_streamed.sh pi                   # Pi, build mode, unlimited tasks
 #   ./scripts/loop_streamed.sh cursor plan          # Cursor (Composer 1.5), plan mode, unlimited tasks
 #   ./scripts/loop_streamed.sh plan 5               # Claude, plan mode, max 5 tasks
 #   ./scripts/loop_streamed.sh cursor build 20      # Cursor, build mode, max 20 tasks
 #
-# Note: Streaming JSONL is used for Claude, Cursor, Codex (--json), and Gemini (--output-format stream-json).
+# Note: Streaming JSONL is used for Claude, Cursor, Codex (--json), Gemini (--output-format stream-json), and Pi (--mode json).
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 UTILS_DIR="$SCRIPT_DIR/../utils"
 
 usage() {
-    echo "Usage: ./scripts/loop_streamed.sh [claude|gemini|codex|cursor] [plan|build] [max_iterations]"
+    echo "Usage: ./scripts/loop_streamed.sh [claude|gemini|codex|cursor|pi] [plan|build] [max_iterations]"
     echo ""
     echo "Arguments can be provided in any order."
     echo "Defaults:"
@@ -28,8 +29,9 @@ usage() {
     echo "Model overrides:"
     echo "  LOOP_CLAUDE_MODEL (default: opus)"
     echo "  LOOP_GEMINI_MODEL (default: gemini-3.1-pro-preview)"
-    echo "  LOOP_CODEX_MODEL  (default: gpt-5.4)"
+    echo "  LOOP_CODEX_MODEL  (default: gpt-5.5)"
     echo "  LOOP_CURSOR_MODEL (default: composer-1.5)"
+    echo "  LOOP_PI_MODEL     (default: pi configured default)"
 }
 
 AGENT="${LOOP_AGENT:-claude}"
@@ -39,7 +41,7 @@ MAX_ITERATIONS=0
 
 for arg in "$@"; do
     case "$arg" in
-        claude|gemini|codex|cursor)
+        claude|gemini|codex|cursor|pi)
             AGENT="$arg"
             ;;
         plan)
@@ -92,6 +94,7 @@ run_iteration() {
             claude -p "$full_prompt" \
                 --dangerously-skip-permissions \
                 --model "$claude_model" \
+                --effort xhigh \
                 --verbose \
                 --output-format stream-json \
                 --include-partial-messages | node "$SCRIPT_DIR/parse_stream.js"
@@ -110,13 +113,13 @@ run_iteration() {
             echo "✅ Gemini iteration complete"
             ;;
         codex)
-            local codex_model="${LOOP_CODEX_MODEL:-gpt-5.4}"
+            local codex_model="${LOOP_CODEX_MODEL:-gpt-5.5}"
             echo "⏳ Running Codex..."
             echo ""
             codex exec "$full_prompt" \
                 --model "$codex_model" \
                 --yolo \
-                -c model_reasoning_effort=medium \
+                -c model_reasoning_effort=xhigh \
                 --json | node "$SCRIPT_DIR/parse_stream.js"
             echo ""
             echo "✅ Codex iteration complete"
@@ -133,6 +136,19 @@ run_iteration() {
                 --stream-partial-output | node "$SCRIPT_DIR/parse_stream.js"
             echo ""
             echo "✅ Cursor iteration complete"
+            ;;
+        pi)
+            local pi_model="${LOOP_PI_MODEL:-}"
+            local -a pi_args=(--mode json --thinking xhigh)
+            if [ -n "$pi_model" ]; then
+                pi_args+=(--model "$pi_model")
+            fi
+            pi_args+=("$full_prompt")
+            echo "⏳ Running Pi..."
+            echo ""
+            pi "${pi_args[@]}" | node "$SCRIPT_DIR/parse_stream.js"
+            echo ""
+            echo "✅ Pi iteration complete"
             ;;
     esac
 }
