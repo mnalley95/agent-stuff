@@ -1,0 +1,2497 @@
+Source: https://www.youtube.com/watch?v=kBqRubi7dSk
+Caption track: English (auto-generated)
+
+people are running around trying to get
+10x speed um and like spend as many
+tokens as possible and escape the
+permanent underclass, whatever you want
+to call it, of just like figure out how
+to like get all the all the subsidized
+tokens now before it's too late. And I'm
+just like, look, man, planning and
+research and all this stuff gives you
+two like, you know, one of these things
+gives you 2x leverage, another one gives
+you 2x leverage. Like that's four that's
+you're moving four times faster. Like
+learn to do that well and then go figure
+out how to go 10 or 20 times faster. But
+like literally if instead of like
+there's this like gap of like people are
+going to 15 to 30% faster and people are
+trying to go like 10 times faster and
+it's like just just learn to get to 2x
+faster and that is transformative to you
+and to everyone on your team and to your
+whole
+Hello everyone and welcome to the build
+system. Today I have an incredibly
+special guest. Uh this is Dex who um CEO
+of human layer uh one of the leading AI
+context labs which is a term I didn't
+even know existed until I guess uh Dex
+and and human layer coined it but they
+have a history of coining things. Dex is
+the father of the term context
+engineering for for the folks listening
+in from home. So you know someone that
+has been in and around aentic software
+development an OG in the space. So I'm
+inre tremendously happy to have him here
+and excited and you know he's just doing
+awesome work uh for the community but
+also at human layer where they're
+helping differentiz companies you know
+achieve 2 to 3x uh productivity gains in
+complex code bases. So they're really
+leading the charge there um as as a
+company and and Dex is leading the
+charge as as a just a member of the
+agentic software ecosystem who's just
+been doing some incredible work. So I'm
+super excited to have him here. Um, you
+know, as we do in these sessions, Dex
+will be actually guiding us through a
+live build of something that he will he
+will show and screen share for us. So,
+we'll see how the father of context
+engineering actually does the building,
+all the secret sauce that he has, which
+is why I'm particularly excited and
+everyone else should hopefully be
+excited as well. Um, one thing that
+we're going to do before that though,
+uh, first of all, welcome Dex. Thank you
+for being here.
+>> Super stoked to be here. Uh, great
+intro. Yeah, excited to uh to riff on
+coding agents with you today and uh get
+get hands- on. And uh I picked uh I
+picked a very fun feature that has been
+bothering me for a while and that will
+be like sticky and complex and we'll
+probably do some whiteboarding as part
+of it. Um so it'll be a good time.
+>> I I I whenever I've seen your videos,
+you have such a nimleness with your
+whiteboarding. like you you you're like
+and you're quite experienced at the the
+arrow drawing and I'm like this is did
+you create this app cuz you were like
+such a I don't know what you use but it
+always just like flows super nicely and
+I I love your diagram so
+>> it's my advice to everybody is learn the
+hotkeys put in the time to learn Vim.
+Learn the hotkeys for whatever app
+you're using. I don't know. I played a
+lot of uh I used to play a lot of
+Starcraft 2 in college and I had the
+most like customized rigged up hotkey
+setup where I would I would go so far as
+to optimize like okay I keep doing this
+key press and it's it's like how do I
+make it you know a two key distance
+instead of a three key distance to do
+this thing and then I would like remap
+everything around to like optimize for
+the things that I was doing more of. So,
+it's uh maybe a personal uh borderline
+psychosis, but uh it is uh it is pays
+pays off sometimes.
+>> Did you have you had you you have the
+foot pedal as well? I had Have you ever
+done that?
+>> No, I've always wanted a foot pedal. I
+know that I I saw a guy has seven foot
+pedals and I'm like I thought about this
+15 years ago and I never pulled the
+trigger on being a foot pedal guy, but
+I'm going to I don't know. Have Have you
+seen uh what is his name? Uh Parth. He
+works in um he works in um Reed
+Hoffman's office. He has a claw. He has
+like a big it's like a it's like a
+keyboard that is like fits onto his hand
+and there's like cords and buttons and
+like the whole thing is like mapped onto
+his hand. So, he's just like can walk
+anywhere and can like talk to agents
+with it.
+>> That's wild. Okay, that's that's next
+level. I I honestly, if I'm going to be
+real with you, I've never even seen a
+foot pedal in in the wild. I've never
+seen someone actually like, you know,
+combine this. But but uh my roommate in
+college almost did. He almost almost
+need to pull the trigger on that but
+never got so I haven't even seen that
+but claw that would be
+>> that would definitely get get some some
+Twitter likes and and some some call
+outs I
+>> You're an SF, right?
+>> Yeah. Yeah. Yeah. All right. I got a
+guy. We'll we'll go we'll go see my guys
+at some point.
+>> Yeah, please. We'll record. We'll we'll
+we'll share with the group. Um we're
+excited to be here. I mean I'm I'm
+excited to have you doing this. Excited
+to have you here. Uh we're going to be
+building some fun stuff. I think the way
+I wanted to get started for the folks
+back home because you know you are
+someone that is an OG in the space.
+you've been building uh building tools,
+sharing resources, some of the most
+popular presentations on on agentic
+developments out there today. And and to
+be honest, whenever I want to point
+people to like anything around context
+engineering, like, hey, you got to go
+here. You got to look at this guy's
+stuff like he's he's he's got he's got
+the sauce. So, what I actually wanted to
+start here is since you are Sonogi and
+uh people love to hear there's so much
+going on in our ecosystem, I actually
+maybe want to start with a little bit of
+more highle questions. But let's just
+like riff on aic development. Like where
+where are we at today? Like there's so
+much going on. It feels like we're on
+these constantly shifting tectonic
+plates now. You who've been in here, you
+know, been here long enough, you you've
+been at the forefront long enough. Like
+how are you feeling? Like give us a vibe
+check here. Like are you happy? Are you
+excited? Are you anxious? Like what's
+what's top of mind for you today?
+>> Oh, you know, every week is different.
+Um
+I'm not going to lie, lately I'm a
+little tired. Um, I have spent the last
+year kind of like trying to be the
+anti-hype guy. Um,
+and I am
+we're still hyping up the same things
+from like 2 years ago and saying
+everything is different and everything
+has changed and like this was kind of
+the whole point of the context
+engineering thing and the 12 factor
+agents was like everything that everyone
+is posting about online of like whether
+it's like crazy nad buildouts or like
+you know tools in a loop agents that do
+everything or all this stuff was just
+like yeah everyone talks about that
+because it like demos really Well, but
+like the things that people are actually
+shipping that work well in production
+and that like you know people like me,
+founders who want to go sell software to
+people and create business and create
+value like most of the people who were
+successfully shipping into like I won't
+even say mission critical but just like
+proper enter not even enterprise right
+just like companies with hundreds of
+employees where like it can't just be
+demo quality it has to it has to work it
+has to work reliably to actually be even
+worth bringing AI into an equation. or
+into a part of a product and they were
+building so differently. I think I think
+Swix posted this a while ago too like I
+think before 12actor agents was just
+like wow it is so
+crazy to me the distance between how the
+top 1% builds and how everybody else
+builds. And so anyways I when people get
+excited about harnesses and harness
+engineering and I'm just like we just
+picked a different word like we ruined
+the word agent already. Like agent was a
+good word and it was useful and it meant
+this one specific thing and then
+everyone started using agent to mean
+everything and then it lost all its
+meaning and it became this hype cycle
+thing. The same thing has happened to
+harness and I'm just like let's not do
+that whole thing again please guys. Uh
+but it's going to happen anyways. I mean
+there are there are new things that are
+coming and there are no interesting
+things that are like you know
+technically sound and useful and work
+but uh the short answer is uh I am I am
+tired and I'm also constantly energized
+and excited new models and new new
+techniques and you know new everyone's
+into like the collaboration and cloud
+and background agent stuff and I think
+there's a lot of interesting stuff
+there. So that's that's what that's
+what's energizing me.
+>> What what are you what are you most
+excited about? You said there's like
+stuff on the outside of this like
+endless hype sucking, you know, the the
+the hype the hype that sucks energy,
+which I totally get. What is the stuff
+that energizes you most today?
+>> I think
+watching like finding ways for humans
+and agents to collaborate in like a
+multiplayer way. I'm very anti I have
+this other the other hype thing I hate
+is when people say the word like multi-
+aent system because it's like so unclear
+what you mean. Are you doing the agent
+soup thing where all the agents talk to
+each other? Are you doing the
+hierarchical thing where you basically
+just have smaller context windows or
+like the RLM thing where you have
+infinite depth of like sub aents and
+only at the at the leaf nodes do you
+actually do the meaningful work and then
+roll everything back up like
+>> uh so there's uh so when I say like
+human multi- aent collaboration I'm
+thinking very specifically on like using
+things like markdown as a shared medium
+for mental alignment between humans and
+humans and humans and agents and kind of
+bringing this all together to um
+get better results faster and keep
+people on the same page. And I don't
+know, I've always been a big like teams
+and transparency and like everyone
+rowing in the same I I don't know. I I
+when I was my whole career I spent a lot
+of time like studying like my first boss
+out of college I was very lucky was like
+incredible software engineering manager
+also a great engineer but just like had
+been leading large teams for the last
+1015 years and just like knew every
+single thing in the book of like how to
+do really good software management how
+to grow a team fast how to do good
+culture how to like give people autonomy
+and ownership and goals and uh and I got
+really inspired so I've been like
+studying like how do we help software
+engineering teams work well together and
+I think like bringing AI into that
+picture without creating chaos and
+maintaining high quality software is a
+really exciting place to to I've never
+expressed it that way before but um
+that's
+h how do we bring humans and AI together
+to to ship to ship things that are
+valuable and that are not slob
+>> yeah that's the the big the big question
+for a lot of people is and concern
+obviously is the slo
+>> not particularly sorry not not
+particularly novel by any means but it
+it's uh the closest thing that I can put
+words on kind of like why I'm excited.
+>> Here here's um here's a a bit of a
+correlary question there. Uh because you
+talk about humans and agents and you
+kind of this multi uh I don't want to
+say multi- aent multi-party
+collaboration and what that dynamic
+looked like. I I mean one thing that I
+think has been top of mind certainly for
+me and I think a lot of folks that are
+you know engineering leaders you
+mentioned your first manager who was
+like a great manager but also a great an
+engineer and I think we've often seen in
+software there's this we go through
+evolutions of like what it means to be a
+a a really like high achieving software
+team right and it it's often times
+correlated with like a some sort of a
+process like a methodology right like
+like waterfall once upon a time and the
+right way to construct a team to to do
+waterfall process was
+>> very highly siloed. The designers hand
+things off to the engineers. The
+engineers hand things off and you know
+there's very discreet entities and then
+then agile came on to you know into the
+mix and all of a sudden became fully
+integrated and and different teams
+talked about talked within each other
+and there was a lot more like agility
+right agile's in the name so things seem
+to become more faster. Um,
+>> and you have the cross functional thing
+in there, right? Let's get people who
+different different instead of having a
+backend team and a front end team, we
+have a like vertical slices through the
+org of like what?
+>> That's exactly right.
+>> Yeah,
+>> that's exactly right. Yeah. And then
+software was born to help capture that
+methodology and and and it feels like
+something's going to happen here again,
+right? It feels like there's something
+that's going to change even maybe in the
+agile structure. Is it is agile going to
+change? Are we going to get something
+new? something that isn't even agile at
+all because agents are now in the loop
+and we can do things faster and and one
+engineer can be multiple things because
+if I'm not a full stack person by any
+definition but I can you know hack my
+way through full stack now with an
+agent. So I'm just curious like from
+your perspective what is what what what
+might that look like? What is the what's
+the structure of the future team going
+to potentially look like? I mean you
+know it's experimentation and you'll
+hypothesis on what that might mean.
+>> Yeah. I mean I think I think everything
+is like an exercise in how do we take a
+big org that has put in hierarchy and
+process and make it function more like a
+small team. This happened with agile
+where you take these vertical teams. Um
+and I think it's all around this
+happened in DevOps too. It was like how
+do we how do we take instead of taking
+like horizontal slices through the org
+by skill set like
+>> rotate that 90 degrees and like make
+people who do different things work
+together. And I think agents just like
+spread it used to be like okay if you're
+a backend engineer you also do a little
+bit of devops and a little bit of front
+end and if you're a front end engineer
+you do a little bit of backend and maybe
+a little bit of design etc. Like you're
+always like the the the best people were
+able to like step one step outside their
+domains and I think I think AI is is now
+making it possible to go two or three
+layers outside of your domain and still
+be kind like some like the more you can
+move up and down the stack the more you
+can own. I know you I'm sure have you
+talked I don't know if you talked to
+anyone from like every but they have
+this pitch of like yeah we have seven
+products and we have one engineer per
+product because we no longer like it's
+actually faster for them to single
+thread through the whole stack.
+>> Yeah. Yeah. Yeah. I think that's right
+and I was um I haven't spoke with anyone
+from every but uh I mean big fan of
+their work love their love their their
+their content. Uh I was talking with
+someone from Windsor and he was saying
+that they are they are like free flowing
+like team structure is not as rigid
+anymore because onboarding costs are
+like near zero and so like it's it's you
+know I can hop from one part of the
+codebase to another and in and in and by
+doing so I'm functionally in different
+parts of the team different teams at any
+given time. So like maybe there's not
+even Yeah. I feel like it it's going to
+become harder to move from a team that
+uses Cloud to a team that uses codecs
+than it's going to be to move from like
+the front end to the back end or from
+product one to product two. Like it's
+the the way people get their work done
+is going to become the siloing factor
+rather than the nature of the work or
+this like technical skill set associated
+with it.
+>> Maybe not. I don't know. You know what
+I'm saying though? or like you know the
+team that uses GStack versus the team
+that uses GSD versus the team that uses
+RPI. Like that's going to create more
+friction than than than
+>> it has before. I don't know. You could
+>> I guess it never happened with IDE, but
+like IDs aren't workflow. They're just
+they're just putting the characters on
+the into the files, you know. So you're
+think actually like the the the siloing
+is the workflow not not the model not
+like the provider because you know that
+is like whatever like you can use the
+API keys are abstracted away by whatever
+system you end up using or you can right
+you can do that um but you think like
+someone who adopts a
+>> purely spectriven workflow versus like I
+think you had crispy at one point as
+like one version of workflow and like
+that might be the sort of the the shift.
+>> Yeah. Yeah. And actually, I think like
+if I was going to like maybe add a
+little more color to like what am I
+excited about, it's like how do we apply
+AI to like more of the software
+engineering workflow? I think is another
+piece of it. It's like it's very easy to
+jump in and say like cool, we're going
+to write the code faster, but like
+>> writing code is a small part of what
+software engineers do, especially on
+larger teams. There's a lot of planning
+and aligning. There's a lot of code
+review and rework. There's a lot of
+testing and verification. And like how
+do we get AI to accelerate the whole
+thing, not just the coding part?
+>> Absolutely. Yeah. Yeah. I mean, clear
+view, I'm sure, is top of mind for you
+as it as it is for me. Um, I have a uh
+one thing that's become a little bit of
+a hot topic or increasingly become a hot
+topic is this this concept of like the
+the dark factory, right? Like in
+software. Um, I'm sure you've heard of
+this and and I think there's been some
+early experiments. I think strong DM I
+think like they they've kind of put
+around
+>> the lights off. Um, yeah, for the folks
+that aren't familiar with the dark
+factory, I guess that I don't know if
+this is the origin of the concept, but
+like in in Japanese factories and
+robotics where you could literally run
+an entire, you know, autonomous, but
+like you could turn off the lights in in
+in in a building and because it's it's
+the whole the whole system though, it's
+all the the conveyor belt is running
+without a human, you don't even need the
+lights, right? And so that's
+>> there's no people in the room. Why would
+you waste money on electricity?
+>> Exactly. Exactly. And so there's been
+this interesting thing people have been
+throwing out like what is what does the
+dark factory look like for software
+where it functionally means generation
+code review you know specs like QA all
+that is fully driven by agents. I mean
+is this legit like what where are we
+going with this? Is that actually going
+to work?
+>> Yeah. So I mean I I you know blessed to
+be in San Francisco where you come
+across people who are doing crazy things
+that are like you know 6 months ahead of
+everybody else. I you know I talked to
+Jeff Huntley back in June last year and
+got really psyched on the Ralph thing.
+We started doing we went really deep
+into this original like the original
+articulation of research plan implement
+was really a like hey look we want to
+like you are not spending enough tokens
+and like find ways to spend more tokens
+find ways to move faster and continue to
+produce good software and like models
+start to slow down once the codebase
+gets older and a little more
+complicated. But one of the things that
+was woven into that in August was like,
+"Hey, we're trying this thing where we
+don't read the code or like we kind of
+read it or like we read the tests
+carefully, but we actually don't care as
+much about the code and the architecture
+and we think about it and we're aware of
+the like the broad structure of it, but
+we don't read the code itself."
+>> And um we found ourselves running away
+from that by like November. We just
+basically had to rip and replace large
+parts of that system. And we we knew we
+had to rebuild it from sc it would be
+faster to rebuild from scratch anyways
+even if the code hadn't become a little
+like tangled and gross and hard to work
+with. But uh with AI it's easier to
+start things from scratch again. But
+when we restarted that rewrite my
+co-founder was in not even cursor in VS
+Code typing every single character by
+hand for like two weeks to get all of
+the patterns and things like plumbed and
+wired end to end. using using AI to do
+research, but like we wanted to make
+sure that the starting ground and the
+core architecture was like sound for
+what we knew we wanted to do in the next
+36 months and potentially beyond that.
+Um, so I I think a lot of people are
+going to notice that they stopped
+reading the code and it's causing issues
+and they're going to like pull back from
+that edge. I think Amazon, the Amazon
+thing is a great example of this where
+they were like, "Oh, we just had a SEZ
+zero. Like, we're going to have like a n
+was like 90-day reset where it's like,
+okay, all mid-level and junior
+engineers, y'all are not allowed to just
+review each other's slot PRs. Like,
+everything needs review from a senior
+and like we are back to reading the
+code. We care about the code. There's no
+like the bar is back up." And so, like
+they pull back from the edge in time.
+And I think most people will notice that
+like okay this is actually going to
+cause thing if you have mission critical
+systems like not reading the code is
+model it's hard to make models that are
+good at software architecture because
+the cost function in an RL sense of bad
+architecture plays out over weeks months
+and years and it's very hard to create
+an RL judge for like good or bad
+software architecture. It's a really
+it's an area of like ML and like model
+training that I'm fascinated with right
+now. Um, but anyways, all that is to
+say, I don't think not reading the code
+works right now. And I think there will
+be companies that kind of ignore the
+warnings and just keep doing it and just
+keep throwing agents at the problem
+until one day they hit an issue. And
+whether it's 12:00 noon or 3:00 a.m.
+when the bug when the alarms go off,
+it's like, okay, cool. The issue was
+triggered by data dog and we fired off
+an agent to do it. That agent couldn't
+solve it. So with our dark factory like
+launched another smarter agent and did
+more queries and like still couldn't
+solve it and now like we really need a
+human and like nobody's read the code
+for three months and so like it could
+take you days or weeks to get things
+back online and in the meantime like you
+have an unprecedented amount of downtime
+or degraded service and you lose a lot
+of customers and depending on how big
+your company is like maybe you're dead.
+And so I've been very much warning
+people like look I'm not saying this is
+gonna happen to you but just be careful
+>> that I mean that's a sobering take but
+maybe a realistic one. Are we one model
+away? Like are we one opus 47 or like
+and what is that going to look like?
+When do we feel comfortable when we go
+back to feeling comfortable not reading
+the code? Like what what is that going
+to look like for us if at all?
+>> Yeah. I mean, to be totally honest, like
+I'm slightly more conservative than some
+people, but in general, like I'm I'm
+pretty I'm pretty excell.
+I just like I'm ready to go in like
+third or fourth gear. I'm not ready to
+hit the highway and go fifth gear and I
+don't know when the right model is going
+to come along but like knowing the
+fundamental ways in which we make these
+models good at things and the types of
+decisions and like um sort of penalties
+or consequences of making those
+decisions incorrectly is hard to RL on.
+I
+not sure if when I mean everyone says
+like cool we'll ship a bunch of slop
+code and then GPT7 will clean it up and
+I'm like I mean maybe I like I said the
+mythos thing kind of like set the we're
+all still waiting to actually get hands
+on and see how it is. Uh but it did feel
+for a while like we had topped out. My
+personal like eval on Opus 45 and Opus
+46 is that it's like faster and better
+at certain things and draws better
+diagrams, but overall like a little bit
+less intelligent than 41. I think there
+might be even like smaller models. This
+is my take. I don't have data for it.
+Obviously on all the benchmark hill
+climbing, those models say that they're
+better, but uh I I'm also willing to
+accept the like, hey, maybe we've topped
+out on what Transformers can do and it's
+going to Ilia's thing, right? It's like
+it's going to be another 10 years.
+someone needs to come up with the next
+version of transformers and we're kind
+of just going to be like slow grow. I
+mean that's why all the labs I think
+that's why the labs are going more
+vertical and more producty. I think it's
+why context engineering is getting
+really important is like okay cool like
+the models are getting better but
+they're not getting like they're not
+doubling in quality every year. And so
+it's like okay how do we
+um well we'll see if we get a model
+that's twice as good as Opus 4 by May
+I'll be impressed but I don't I don't
+feel like that's going to happen.
+>> Yeah. Yeah. Yeah. There there's
+definitely a there there's an easy I
+think there's an overoptimistic way to
+look at a model architecture and say ah
+yes like clearly the gains most people
+forget that there's an elbow in
+basically every single machine learning
+architecture out there there's a point
+where like
+>> slope is you're just getting incremental
+gains you do more work to get small
+gains and and that's true been true of
+every architecture ever in the history
+of statistical learning so like why
+would this be any different so you know
+it will have to require rethinking Yan
+Lun might be the one responsible world
+world models might be the thing that
+that gets us there, but we'll see. I
+mean, it there's a totally reasonable
+take here to say, yeah, transformers are
+going to top out and throwing more GPUs
+at the problem may not be the issue,
+right? It's not it's not what we're
+missing here.
+>> And I do believe that like software
+engineering will be solved and there
+will be a model that's smart enough that
+we don't have to read the code. Uh I
+would never bet against that. But when
+you say we're gonna stop reading the
+code, you are making a bet that you can
+time that you know when that model is
+going to come out to come and fix your
+problems. And I wouldn't gamble
+particular I wouldn't gamble my
+company's hit future or a ton of
+miserable late nights for myself uh on I
+know that this is going to be ready
+within 6 months and that's our timeline.
+And it's like oh if it takes a year for
+that model to come out actually like
+we're hosed. Like I would rather be a
+little go a tiny bit slower and
+guarantee that no matter when that model
+comes out we're going to be and like you
+should skate to where the puck is going
+but you shouldn't put your entire code
+base on the line to do that.
+>> Yeah. And I mean that's a a good take
+and and almost like a bit of a different
+one compared to you know Boris who will
+say always build for the model six runs
+from always build from model six. Like
+yeah well that would be taken to the
+limit. That means
+>> slop your weight and eventually in 6
+months Claude will come and save you
+right. You could buy build for the model
+6 months from now, but build for like
+the median outcome, right? There's a
+there's a 5% chance that we get, you
+know, twice as good in the next 6
+months. But there's the medium outcome
+is probably it's like 20 30% smarter and
+it can do more things and the task
+horizon expands and things you used to
+have to care about you don't have to
+care about anymore. But it's
+incremental, not you know,
+revolutionary.
+>> We'll see.
+>> Right. Yeah. Yeah. TBD. Uh, one thing
+that I also wanted to touch on here is
+you um you mentioned, you know, here in
+SF4 AI PID and so we're surrounded by a
+lot of crazy people but in in the most
+in the best of all ways where you know
+they're pushing the frontier. Um I I
+feel that there's a bit of a there is
+that bifurcation right that that I think
+Swix has alluded to where on the one
+hand yes we're all AI pilled here and
+and agentically pilled but then you know
+I talked to companies that are the F500
+enterprises that I'm sure you also talk
+to all the time that are like hey
+January rolled around this year and we
+just installed you know GitHub copilot
+for everyone in our 3,000 person or and
+we're looking for 10% efficiency gains
+by the end of this year which in
+corporate speak means it's not happening
+this year it's happening in 2028 you
+know realistically. That's just how
+corporations work. Um, someone is going
+to get promoted in that meantime even if
+they don't hit that milestone. Uh,
+>> what's that I mean that bifurcation like
+what do we say about this? Does this
+mean like the blast radius of how far we
+can get with agentic coding will be
+limited a little bit just by like human
+factors here in some sense because not
+everyone's going to adopt at the same
+rate and we might be you know startups
+in SF will be pushing the frontier but
+you know if if I don't know I don't know
+what Nestle or something what they're
+doing internally but like let's use them
+as an example they're still going to be
+on on co-pilot in 2028 and so they're
+never going to get to that you know
+amount of productivity that we're
+seeing. So curious what you think about
+that. Yeah, I I mean I literally had
+this conversation this morning of people
+saying like yeah all the labs keep
+saying that software engineering is
+solved and we just installed we rolled
+out copilot and cloud code and like
+people are using it they like it the
+engineers are engaged like the usage is
+there and people say hey this is helping
+me go faster but on paper it's really
+only 15 to 30% gains at the in the very
+very best cases. Um and you know what I
+tell people is like if you're not
+getting two to 3x then you're then
+you're holding it wrong and like you
+should educate your team, you should
+find better tools etc.
+Um, I don't know how the like slow
+blurry adoption curve goes, but again,
+this is like my personal mission is like
+I get to hang out with a lot of smart
+people and learn a lot of things and we
+learn a lot of things from each other
+and like I want to share that with as
+many people as possible and help as many
+people as possible get, you know, this
+what context engineering is all about is
+like, hey, if you sit there and yolo
+prompts into the model, you will get
+some quality of results and it will be
+better than what you were doing before.
+But there is a there is there is a there
+is another frontier where if you really
+understand LLMs and transformers and
+context windows, you can push these
+things to solve bigger problems faster
+at higher quality.
+>> Right. That's right. Last question for
+you and then we'll we'll hop into the
+build, but which I'm super eager about.
+I'm sure you're eager as well. Last
+question for you is is one that um has
+certainly been top of mind for me. I
+think was
+>> maybe became top of mind for a lot of
+folks, especially after after it was
+featured by Lenny. Like once once Lenny
+says it, then it becomes a problem that
+everyone cares about and It was a little
+bit related to his his interview with
+with Simon where you know they were
+talking about one of the fundamental
+limitations like yes you scale up
+multi-agent whatever multi- aent means
+you know concurrent agents doing
+different tasks one does front end one
+does backend one does data analysis blah
+blah blah great we get better at the
+tool we get better holding the hammer
+but fundamentally
+are we topping out on human psychology
+here right like I still can only do two
+windows three windows max of deep work
+sessions right and that's always going
+to be a little bit of my limitation
+Perhaps. Now what I wonder and and you
+know I'm sure you've thought about this
+as well is just is this something that
+we can train ourselves out of or is this
+just like are a brain not able to do two
+to three sessions beyond two to three
+sessions worth of deep work and there's
+no amount of UX no amount of model
+whatever that's going to get us past
+that that that threshold. Uh, but maybe
+not. Maybe this is something we can just
+build some systems for and and learn how
+to plan at the right times and stack
+tasks appropriately. Where are we at on
+in that respect?
+>> I'm not going to completely answer your
+question here, but I think like the the
+closest thing I have to Yeah, I I don't
+know. I'm I'm in the same boat I
+recommend to people like if I'm doing
+complex work, it's like max two things
+at a time and I always have like a top
+priority thing. I'm not I'm not doing
+these two things in parallel and moving
+them along the workflow at the same
+time. I'm like there's a primary thing
+and as soon as that is unblocked I'm
+back on the primary thing and then I
+have a secondary thing that I do while
+it's over and like the primary thing
+pulls ahead over time and then when it's
+done then this becomes the primary thing
+and we pull in another secondary and
+it's either two hard things or it's like
+one hard thing and like three or four
+really small bug tickets that I know I'm
+not really going to have to think that
+much about.
+>> Yeah. Um, people are running around
+trying to get 10x speed. Um, and like
+spend as many tokens as possible and
+escape the permanent underclass,
+whatever you want to call it, of just
+like figure out how to like get all the
+all the subsidized tokens now before
+it's too late. And I'm just like, look,
+man, planning and research and all this
+stuff gives you two like, you know, one
+of these things gives you 2x leverage,
+another one gives you 2x leverage. Like,
+that's four that's you're moving four
+times faster. like learn to do that well
+and then go figure out how to go 10 or
+20 times faster. But like literally if
+instead of like there's this like gap of
+like people are going to 15 to 30%
+faster and people are trying to go like
+10 times faster and it's like just just
+learn to get to 2x faster and that is
+transformative to you and to everyone on
+your team and to your whole company.
+Like figure that out. Uh and stop trying
+to moonshot everything. Uh yeah, skate
+to where the puck is going. Maybe I I
+don't know. I don't
+>> I love that. I love that. Yeah,
+everyone's getting a little too excited.
+We're we're getting we're in a sense
+overstepping what we like the
+expectation is maybe taking us a bit
+farther than we want. But I I love that
+that point. Um everyone should aim to be
+22 3x which is what you you're doing and
+you know maybe now is a good time to to
+show us how we can start
+>> building some of the systems around how
+to get to 3x. Um let's hop to the build
+decks first. Get us started. What what
+are we
+>> what are we building? Give us some
+context here. pun intended for the
+second time. Um, we I made this joke in
+before we started recording. Uh, tell us
+what we're building and then whenever
+you're ready, screen share so we can see
+what what uh guide us through the
+process.
+>> Okay, cool. Um, so Oh no, hang on. Let
+me get back in here.
+I am going to stall for a bit for your
+editor.
+>> Um,
+>> elevator music playing.
+Um, cool. I think this all looks good.
+Let me just archive this one
+and this one and this one. Okay, cool.
+Uh, sweet. So, uh, what we are going to
+build today is going to be a lot of fun.
+Let me see. Share my screen. Um,
+and let's get into it. So, uh, we do all
+our work in linear. So, I'm going to
+pull up a linear ticket. Um,
+>> we're going to work on something called
+uh allow users to interrupt sessions
+with a pending approval. So, uh, we work
+we build a pro. This should be this
+should be clear if you if you've used
+cloud code. Um,
+um,
+we are going to um
+h yeah. Okay. So, in this product
+basically I can come here and I can make
+a cloud session. And I can say, you
+know, um, you know, write food
+tobar.txt.
+And once this session launches, I will
+be able to, um, interrupt it. So, okay,
+Claude is going and it's going to go do
+the thing. I can interrupt this and then
+it will, um, get cancelled.
+Um, and I can say, you know, write fu
+tobar.txt.
+I'll try this again.
+Um, and I'll show you basically like if
+you don't have, you know, auto auto
+accept permissions or dangerously skip
+permissions, you get this approval
+state, right? And while this is here, we
+don't have the option to interrupt it. I
+have to either like approve this call or
+if I start saying like no, make it more
+based. That actually puts me in denying
+mode. And then that becomes kind of the
+response to clot of, you know, the the
+user denied this tool call with
+feedback. Make no, make it more based.
+And so now it's going to come through.
+But the idea is like I can only
+interrupt a session while it's running
+when like really as a user I may want to
+just like kill this thing while it's in
+this like pending approval mode. Does
+that make sense?
+>> Yeah. Yeah.
+>> Um cool. So I'm going to kick this off.
+Um what we usually do is I'll just grab
+the linear ticket ID. I will la This is
+all based around tasks. So um
+>> I will pop in here and put in a ticket
+here. Um and I'm going to put this in
+auto advance which is kind of a feature
+we have. Basically what's what's
+happening under the hood here when we
+build is like we walk through this
+context engineering pipeline that has
+like five or six or actually in this
+case like eight steps um
+>> and uh the model's basically going to do
+this context engineering workflow. So I
+I'll talk through what that looks like.
+>> Yeah. Can you zoom in because like that
+there's like there's stuff there's stuff
+happening the animation but I don't I
+would love to see what what's what's all
+going on. actually going to do is I'm
+going to I'm going to pause the screen
+share for a sec.
+>> Yeah. Yeah.
+>> Sorry. Your editor is going to have a
+fun a field day with this one.
+>> Are you the editor by the way? Is that
+you?
+>> No. No, I'm not the editor. You think I
+have that skill? Like the agent couldn't
+save me. I I have no idea how to do
+editing.
+>> Um so yeah, this is our workflow. I
+mean, we talked about this in the
+conference talk. We go in a little bit
+more in depth, but basically like we
+take the ticket and we turn it into a
+set of research questions. This is like
+the first piece of context engineering
+that we're adding here, which is
+basically like, okay, we take the ticket
+and then we write questions to build
+objective understanding the codebase.
+Then we use a completely fresh context
+window where the model has no idea what
+we're going to be building. And then we
+go research the entire codebase and we
+we pull all that through. And so we are
+in the questions phase where we've
+basically um we've created this like
+small ticket which is very lightweight.
+I'm just like allow users to interrupt
+sessions with a pending approval. Um I
+probably could have said a little bit
+more about this, but we're going to go
+with this one and see how it goes. Our
+kind of take is like yeah you could
+write a really long spec because you
+know the codebase and you have to
+explain okay do this over here and I
+want it to be done in this part of the
+codebase and all this stuff is like you
+could do that but in our in my mind I'm
+like I I I want to be able to just like
+ramble five sentences into voice mode
+and then uh and then have the model go
+read all the codebase and pull all the
+codebase context in and then we iterate
+on the spec together basically.
+>> Mhm. Um and so this first step is just
+you know going to be running through and
+launching some sub aents and just like
+finding where these things are. This is
+quite a complex feature. So like if I
+were if I were to draw this essentially
+what is happening is you know we have
+our client here
+our like web app.
+>> Mhm.
+>> This is talking to an API
+um which is talking to on the other side
+there's like a demon on my workstation
+that manages all these like cloud code
+sessions.
+>> Mhm. Um,
+and so the client talks to the API which
+like um like sends work down to the
+demon.
+>> I don't know why we're doing dotted
+lines here. Um, and then the demon will
+send it and then as this cloud code
+session is running and emitting events,
+these stream back up to the API where
+they are then um
+where they are then kind of like shown
+in the client. And I'm gonna put arrow
+heads on these.
+>> Um,
+and so there's a lot of different like
+it's all monor repo, but there's a lot
+of different like moving pieces here
+>> that uh will cause that like so the
+client is getting like a list of
+approvals like pending approvals
+and then the client will update one of
+those approvals and say it's approved.
+The demon sees that, forwards it on to
+claude code and actually like allows the
+thing to proceed and then sends the
+event back up. So there's like a couple
+different even like database tables
+being managed here in terms of like the
+events, the session
+>> and then a session has both events and
+like approvals
+which are either pending, approved
+or like denied, right? And so these
+these all have a state they these all
+have their own state machine and then
+the session itself has this state
+machine where it moves between like
+running versus interrupted versus live
+etc. Um so there's a lot of uh there's a
+lot of places in this codebase that are
+relevant here.
+>> So also
+we are we are looking at the the human
+layer interface here. This is
+>> yeah this is this is the app the app
+that we are working we are using the app
+to build the app.
+>> Nice nice meta. Love that.
+>> Yeah it's great. It's fun working on
+developer tools is fun.
+>> The 20,000 folks on the wait list will
+one day get to see this.
+>> We are I am
+there's one last infrastructure thing
+that we're ironing out. Um and then we
+are getting ready to uh with any luck um
+we will be launching in the next couple
+weeks and start letting larger chunks of
+people off the wait list. So very
+exciting times. I'm not I can't commit
+to it yet, but we are working really
+really hard to get something out where
+we can uh give it to hundreds and
+thousands of people.
+>> Brilliant. Not hundreds of thousands but
+thousands of people eventually after we
+do the hundreds of people
+>> and eventually hundreds of thousands but
+but that that'll that maybe that's for
+for a later day
+>> a million developers. Um so these are
+our research questions. Um for really
+hard issue I will maybe check these and
+make sure they're all correct. Um but
+this is mostly like internals of the
+workflow at this point.
+>> We are taking the ticket and using it to
+generate kind of very objective
+questions. These are not for me. These
+are for the model to answer.
+>> Mhm. Um, and then when this session
+finishes, because we had it on auto
+advance, uh, over here, it's kind of
+like launched another session. And so
+this one is now actually taking those
+questions in and going and doing a bunch
+of deep codebased research to get the
+answers to them.
+>> Does that make sense?
+>> And this is all this is all with the
+intent of just like really this is a
+context engineering sort of workflow
+piece, right? like to you want the the
+the agent to basically get clarity and
+forcing it to prompt almost to prompt
+the questions is how you able it it then
+knows where to go and start answering
+all those questions. In doing so, it it
+forms a good good structure and
+understanding of of like what it needs
+to get done.
+>> Yeah. But well, so like the goal of the
+research is not to like understand what
+needs to get done. just to create a
+really objective like one of our tips
+here is like make sure there's no
+details of the like implementation we're
+doing or how the model wants to go solve
+the problem. We're just creating like a
+compressed view of the codebase couple
+hundred lines of markdown so that every
+subsequent session that we go through
+let's see if I pull this back up
+>> every subsequent session is going to use
+this research doc. So we use the ticket
+and the research later to create a
+design discussion. Then we use all three
+of those docs to build an outline. And
+then we use all four of those docs to
+build a plan. And so this is kind of
+like Jeff Huntley's like malicking the
+context window as we call it where like
+you're deterministically at each stage
+each each context window is separate and
+you only carry a subset of the context
+from the previous one. So you're just
+continually compacting down like you
+know where are we going and then how do
+we get there and then we build it into
+like a low-level doc for the agent and
+then we actually run through the
+implement flow which we'll we'll look at
+today as well.
+>> Mhm. That makes sense. Yeah. And this is
+this is seems like a I mean this this
+workflow was refined over I'm sure many
+many sessions. This is is this a
+prerequisite to like basically being
+able to do work in legacy code bases,
+massive code bases like this is a very
+it's a multi-step process here compared
+to the one trotting that someone would
+do or you know
+>> I wouldn't say it's a prerequisite and
+like I have also heard feedback like we
+we use a little bit of like we use mixed
+like codecs and cloud usage these days
+and like codeex is better at going and
+reading more files before it actually
+gets to work. Um, so you need a little
+bit less prompting for it. But yeah, the
+idea is basically like um the the
+ceiling of the hardest problem you can
+solve is proportional to like the amount
+of this context engineering you're
+willing to do. And so like if you're
+just changing the color of a button and
+you know what file it is, like just talk
+to the agent and just be like change
+like I wouldn't use this flow for that.
+Um,
+>> if it was a medium-sized feature, then I
+might, you know, I might skip the
+questions and the research, but I would
+spend a lot of time iterating on the
+design discussion and maybe a little bit
+of time on the outline doc.
+>> Yeah.
+>> And then if it was like a larger
+feature, I might read and review every
+single file in the process. And then
+there's there's some tasks like, you
+know, if you're doing a 20,000 line PR,
+you're probably doing multiple
+researches, multiple plans, um, but
+they're all kind of based around the
+same goal.
+>> Yeah. That makes sense.
+>> One, yeah, it does. Uh, one maybe
+secondary question to um size of
+feature, you know, size of feature and
+and even the size of the codebase here
+because a lot of people when they run
+into issues, they're like, uh, we deal
+with a legacy codebase with million
+lines across 15 repos. I mean, does this
+apply here as well? Uh, what do you what
+do you recommend in those situations?
+>> Yeah, that's the idea. I mean like if
+you if you want a coding agent to work,
+you know, if it's super well like
+modularized and you only have to touch
+one part of the codebase to do a thing,
+then like again, you might be able to
+get away with this. But the idea is like
+this research is going to launch a bunch
+of sub aents and every single sub agent
+in this session is going to probably
+touch, you know, a 100,000 tokens worth
+of context and then summarize it into a
+couple hundred or maybe a thousand
+tokens worth of context. Mhm.
+>> Um,
+>> and so we're just compressing everything
+the model needs to know. And like it's
+not everything, but it's it's it it
+makes sure one every subsequent session
+doesn't need to go through and learn all
+this. Like basically every time you do a
+new session, right, you clear your
+context or you do a compaction or
+whatever it is, you're usually stuck
+with like you need to re onboard the
+model into the codebase. And so this
+research is actually one, it helps you
+get more information and make sure that
+the model has knows every part of the
+codebase that matters for this ticket
+that we're doing, but also means that
+every other session just starts primed
+with just the codebase context. Like you
+know, if you could make this 5,000
+lines, but then it would eat like way
+too much of your context window. So we
+like make these on demand per task
+basically. And I wouldn't say it's a
+prerequisite for working in large code
+bases with millions of lines of code,
+but we've run this workflow in like 5
+million line monor repos um and been
+able to find the right stuff really
+well. It's it's a flavor of throwing
+more tokens at the problem, but it's
+only throwing tokens at the problem for
+the things that the AI is good at, which
+is like,
+>> okay, go read a million files and then
+figure out how everything works, and
+then I'm going to tell you what we're
+building.
+>> That's awesome. This is this is super
+cool.
+So, um, and this started as a three-step
+process and then we like broke it down
+to basically raise the ceiling of what
+you could do and like also like trying
+to make it work a little bit better
+with, um, with smaller models, right?
+The more context engineering is great
+for take the the best model you can get
+your hands on and make it like 10, 20,
+30% better.
+>> And then it's also really good for like,
+oh, I want to go faster. Well, I can I
+can do a bunch of context engineering
+and now I can get Sonnet to do the work
+that I used to need Opus for, which
+means I can go faster.
+>> Right. Right. Right. That's right.
+>> So,
+>> that's great.
+>> Um, this research has finished and it
+has auto launched our design session.
+Um, and so this one has said, okay,
+cool. Excellent. The research is
+comprehensive. It's going to dig a
+little bit deeper, but I can start
+pulling up this research and I'm
+actually going to start reviewing this.
+>> Yeah. Um so this is a highle summary of
+our codebase. Um this is uh a lot of
+people say oh it's open source. Uh we
+did fork the open source and make it
+closed source. We're going to start open
+sourcing pieces of it out of the monor
+repo soon. Um but open source is going
+through kind of its own weird thing
+right now and it's not critical to our
+strategy. So for now we're building
+we're building behind behind the iron
+curtain as it were.
+Fair enough. So, this is like How long
+is this a research shot? This is like a
+like this looks like maybe at least you
+want to do a,000,000 some just pop it
+up. It's probably I'm going to guess
+it's between 600 and 700.
+>> Okay. Okay.
+>> Um Oh, no. Only 400 even. Yeah. Yeah.
+Okay.
+>> So, it's Yeah, it's got this status flow
+of like how the approvals work in our
+system which is like quite quite
+complex.
+>> Mhm. Mhm.
+>> Um but I can come through. So I I
+usually don't read this very closely. Um
+not because it's not important, but just
+like the likelihood that it is incorrect
+is low. Like
+>> current Frontier models are really dang
+good at reading a bunch of code and
+explaining how it works.
+>> Yep. Yep.
+>> Um but I'm going to go to the end.
+Usually there's some open questions
+here.
+So okay, how does it behave when
+multiple sub agents have pending
+approval simultaneously?
+So I can put comments on this too. go
+find where this works by reading the
+code. It'll ask questions and it's
+usually just it's my s the signal to me
+like oh it missed some important detail
+so I can actually ask the model to like
+iterate on this research doc. So this
+design session is running while it's
+going I'm just going to clear up some of
+the questions on the research so all the
+future sessions have as much uh have as
+much uh context as as possible. I'm
+actually
+>> but the design is able to operate on the
+on the version of the research that
+doesn't have all those questions
+answered and that's okay.
+>> It will operate on it and again like
+every session is designed to go like get
+its own extra context cuz it's adding
+new things. So this is probably going to
+go find itself find the answers to the
+open questions.
+>> I don't I don't want future sessions to
+also have to do that. So I'm going to
+make sure that from here going forward
+we're going to make sure that this is
+all in the research um from from the
+start. So interrupt session procedure
+gates on status equals running while the
+archive path gate on archive session
+interesting
+I don't know the answer to this
+can you search for it
+then this one.
+This is irrelevant.
+Ask about race conditions. So then I can
+come and just like send all these
+comments to the agent and it will go and
+kind of uh go take these comments and go
+fill out the doc. I could also have just
+like pasted something into the chat with
+Claude. But what's really cool here is
+like when we get to the design, I'm
+gonna have some questions that I need
+Kyle, my co-founder, to look at and
+we'll actually like grab a link to this
+and share it with him.
+>> That's cool.
+>> Yeah. So,
+>> and so when these questions are
+answered, they what what are the later
+steps of the process that now have the
+updated version of the research cuz you
+you sent out this comment. They just
+going to go find these answers, augment
+the research with that, and then
+downstream who then consumes this this
+now up up to-ate version of the
+research.
+>> Yeah. So essentially like we we built
+this research and then we iterated on it
+and now we have like research v2. So the
+design is going to be working off of our
+research v1 but everything else is going
+to get our research v2. So when we go
+and take our design like here's the
+desired end state. How do we get there?
+We'll be using the slightly more uh
+beefed up research basically.
+>> Cool. Cool.
+>> Yeah that's that's that's kind of the
+idea there. Um, again, Cloud could
+always go find the answers to these
+things, but um, it's easier, better,
+faster. Why why why repeat that thing in
+every in every session? This kind of
+idea is like we get around the idea of
+compaction and like having to clear or
+having to like oneoff markdown docs
+because basically everything that
+matters is designed to go into one of
+these documents.
+>> Um, okay. So,
+oh, interesting. Why did it use cat?
+That's so wild.
+Um,
+every once in a while Claude does
+something crazy. And the way this works
+is by listening to the right hooks, but
+let's see if it can read it.
+Use cat, dude. Use right.
+I don't like to yell at Claude, but we
+might have to get the all caps out.
+Does that work? Did he find that to be
+more productive?
+>> Here we go. Okay, now we got the doc. We
+do some stuff with hooks where like
+we're kind of like faking a virtual file
+system because all this stuff goes into
+the cloud. And so I'm going to actually
+>> um
+>> pause my screen share for a sec and go
+send Kyle a Slack message and ask well
+we'll go through this doc together um
+and then when I when I get to questions
+that I don't know the answer to, we'll
+pull them in. So, sounds good. I'm
+actually going to read this uh uh
+probably somewhat quietly. Um, as much
+as I love uh a live demo with lots of
+action, uh do not outsource the
+thinking, etc. So, I'm going to start
+skimming through this and just kind of
+like make sure that it's correct. This
+is me doing brain surgery on the agent.
+Yeah, that's right.
+Let me interrupt. It's disabled.
+go through the den flow first, which is
+awkward and indirect. Yeah, I didn't
+even say any of this. I just like
+figured out what the problem was.
+>> This is why again like our ticket was
+super short, but we figured it out.
+Yep. Not changing the interrupt flow.
+We're not changing the collection
+shapes. We're not changing the
+subscription logic.
+And we're not changing the archive path.
+So currently we have an interrupt
+endpoint. I'm not going to read that.
+Um, so we have this patterns to follow
+which is really like hey a lot of people
+have in their codebase like you know
+here's uh here these are three or four
+different ways to do a thing and this is
+our opportunity to kind of go find go
+make sure it found the right way to do
+the thing right a lot of times you oh
+that's the old way of doing it like I
+need you to go find in the new way
+>> so okay this guard looks fine
+uh board signals
+Oh, interesting.
+I did not know this. Amazing. Okay, so
+how should the API interrupt the demon
+endpoints the status card change? Okay.
+Um,
+great. Let's do this.
+Um, Q2, should the API explicitly deny
+pending approvals when sending a
+requested or rely on the existing demon
+finalization path?
+actually
+actually want to so this is the other
+thing is like the model's going to give
+you some options and some of the options
+may not be right and this is actually a
+case where I don't know what the
+contract with the claude agent SDK is
+and so I actually want to like go write
+what we call like a learning test let me
+just see where my branch is
+Um,
+let's just reset
+stream main.
+Okay. Uh, I need you to check in um
+source test learning to see if we have
+any um things that show what is the
+behavior of a cloud agent SDK session
+when a pending appro when a when a
+session is interrupted with a pending
+approval and see what events come out
+and then resume that session um and see
+what um what was actually in the context
+window. Um so we got to catch all the
+events after we interrupt it and then we
+got to uh examine them in the test. So
+just don't put any asserts in just use a
+print line.
+Um test examples are in
+test learning.
+Um
+sure.
+Um so this is this idea of learning
+test. We do this sometimes like when I'm
+integrating with a third party system
+that's like a black box.
+>> Yeah.
+>> Um there may be surprises and I don't
+generally trust models to like guess
+even if they read the docs and stuff
+like I as part of the planning and dev
+process it's really important to me to
+like get all of the surprises out of the
+way uh ahead of time.
+>> And so for me there's like there's three
+categories of research. You have sort of
+like
+you have codebased research.
+>> Yeah.
+>> Right. And then you have, you know, web
+research, you know, web and docs
+research.
+>> Yeah.
+>> And then we have like this like learning
+tests is what like I forget. I think
+Uncle Bob or Martin Fowler calls it this
+or like proof tests basically where it's
+like
+>> prove that this system works in the way
+you think it does because it's going to
+affect the entire design of what we're
+going to build.
+>> Mhm. Um,
+and so I'll find us reaching for this
+sometimes, especially if we're working
+for with blackbox systems. I mean, cloud
+code SDK happens to be uh no longer a
+full blackbox, but in general like the
+changes and the releases are closed
+source. Um, so when we're integrating
+with this or like I know a lot of people
+have done this with like um like cloud
+agent SDK.
+>> Mhm.
+>> Or with like the OpenAI responses API
+like you basically have Claude go
+reverse engineer the system. You have
+your coding agent kind of reverse
+engineer this thing from the outside
+where you want to see like okay where do
+this thinking blocks get preserved? How
+does the context window change as we go?
+Um so okay this thing has written a big
+test which is going to like just poke
+this poke this thing from the outside
+and like see what the cancellation
+behavior is.
+>> Interesting.
+>> Um yeah and so we we we structure these
+as as like unit tests basically. Uh we
+don't run them all the time.
+>> Um get the test fired and we got useful
+output.
+Put it through because the SDK throws on
+error results. Let me fix the test to
+catch that and continue to phase two. So
+it's now going to it has all the context
+of the problem we're solving. It's now
+going to run through and try to um try
+to figure out what is actually like pull
+that into what is the right approach.
+>> H and this is in those situations where
+you don't even have like something like
+a context 7 doc that you can pull or
+like an SDK or something or or
+>> when do you find this? Yeah.
+>> Yeah. So we can read the docs. Um when
+it's super critical though I'm always
+like I need you to prove this with
+running code for me. um is usually what
+it ends up being.
+>> Um so, okay, cool. Error during
+execution because like
+>> basically like if we can just interrupt
+the agent SDK uh with like a cancel
+signal and it handles like denying all
+the tool calls for me, then I don't have
+to think about the pending approvals or
+anything like that,
+>> right? Um okay, so let's see what the
+outcome was. Okay, test passes very
+informative system init assistant tool
+use right can use tool blocks and abort
+signal fires two user messages are
+injected you get a tool tool result
+automatically user doesn't want to
+proceed with this tool use perfect and a
+text message requested interrupt by user
+and so then you get this result and then
+the right tool and then when you resume
+it there's no replay events it does
+remember the denied cool call user
+doesn't want to proceed claude knows the
+file was not created Amazing. Cool. So,
+I don't even have to go read the test or
+the output. Like, I'm I'm I'm pretty
+confident that Claude was able to read
+this and rip through it. Um,
+and so I can now say like, "Cool, please
+incorporate this into the design doc as
+it probably affects some of our
+decisions. If we can get away with um
+just cancelling the cloud session and
+then, you know, I think on the back end,
+we probably just need to mark those
+approvals as rejected so they don't show
+up in the stream anymore." Um, and like
+they maybe they don't because there's
+already a tool result so we know there's
+no approval to show but we should make
+sure that they get kind of resolved so
+they don't display anymore. So, uh,
+hopefully that's enough to update the
+design doc.
+I think I might have. Yeah. Okay, cool.
+So, that's an example of like I don't do
+that all the time. Most of the time
+we're looking at our codebase so we
+could research it and we can make pretty
+good assumptions about like okay, we
+have a really like rich test suite that
+we can do. Um and we don't run these
+learning tests against all like we don't
+run them all the time but for blackbox
+things and we don't run them as part of
+our test suite either right they are
+really their goal is like they run
+oneoff to understand the system
+>> and then they're nice we keep them
+around we keep them committed because
+they're nice in that they
+>> if the contract of the external system
+changes we have like executable
+documentation of like everything we
+depend on from the external APIs that we
+need to use.
+>> Does that make sense? And it it does uh
+partially when do you then get pull when
+do you pull in cuz you said you commit
+these so then on future tasks you would
+pull in the same committed tests that
+were learning tests that were generated
+here and then that informs that that
+later task is that how you're doing it
+and or Wednesday has a husion happening
+because even those tests might need to
+change depending on if the blackbox
+changes as well right
+>> yeah so that's the idea is like we
+maintain these as like reference docs
+for the agent they don't normally get
+pulled into research but we basically
+just have you know, apps cloud SDK
+um source test learning and we just have
+a bunch of these and like so every once
+in a while I might be like okay go read
+this learning test to understand how
+like session continuation works when you
+launch a new session and like fork the
+session how do you get a s new session
+ID and how are those managed
+>> uh but it's more like they don't run as
+part of CI and like if we get a bug and
+I'm like oh did the behavior of the
+agent SDK change. I come here and just
+run all these tests and verify cuz some
+of them have like they have assertions
+in them for the parts of the behavior we
+rely on.
+>> Right. Right. Makes sense.
+>> And then you you used the outputs of the
+tests to update the design
+>> in the sort of the the DAG of steps.
+Does this now rerun everything
+downstream of of that updated design?
+>> Yeah. So, we're we're here right now,
+right? we're we're iterating on the
+design discussion
+>> and I did kind of a like off the happy
+path thing which we don't do for most
+tasks which was like you know go get
+some proof.
+>> Yeah.
+>> So I could have done that in its own
+session. I decided to do it in this
+session. Um we're getting sort of near
+where I get a little bit uncomfortable
+with the context usage and I may like
+start a new session once we get past
+that.
+Um, okay. So, it did some more codebased
+research just to confirm my question and
+then the sub agent came back with kind
+of a pretty rich um, analysis of all
+this. So, um, and I know we're coming up
+on time. I think we can probably rip
+through the rest of this. I think the
+actual code changes here are small, but
+again, this is just like quite a complex
+system. Uh, so I want to make sure want
+to make sure we do it correctly.
+>> Totally.
+Um,
+cool. So, we'll go through and update
+the doc. Um, and then I might see if we
+can get some input from Kyle.
+Copy in
+copy cloud link. Give me one sec here.
+I'm going to test
+All
+right, we can go back to sharing
+screen. Okay,
+I'm so excited for this to be fixed. Um,
+okay, four open questions remain. Um,
+let's see what we got. Okay, so I will
+send this comment to the agent
+and then this one got moved as resolved.
+How should the UI submit button and
+hotkeys handle interruptor needs
+approval?
+Yeah, this sounds great.
+How should command enter behave
+when needs approval? Input interrupt or
+deny mode?
+Yeah, so that should
+this should still put us into deny mode
+if there's a
+pending approval.
+And we should just also add a interrupt
+button to the
+left of send.
+So we will send that one out. Okay,
+cool. And we got a comment from Kyle.
+He says, "Option A looks more readable
+to me." Okay, great.
+>> Yep. Okay, cool. So I can resolve those.
+Um,
+>> yep. So, that took me there. Go back
+into the session.
+>> Um,
+>> that was dope, by the way. So, this is
+like that you basically did
+multiplayering the the design, right?
+>> Multiplayering the design doc. Yeah. And
+so, this can also, you know, you can
+open this in the cloud and then I can
+send this to people on my team and they
+can come in and drop comments on it. So,
+we attach these to the linear tickets
+basically. And so every doc gets put in
+here and then we even there's like a
+secret there's like a secret thing where
+actually it like updates the status of
+the ticket as it goes through like
+research in progress research in
+progress to design in progress. So these
+actually like move across the board as
+people are working on them without them
+having to like transition the statuses.
+>> That's super cool. Love that.
+>> I don't necessarily recommend it gets
+pretty it gets pretty like heavyweight,
+right? So if I come back to this board
+and I turn off the like, you know, uh
+what is it? Show empty columns. It's
+like I don't actually recommend anybody
+make comment columns for every single
+step in this workflow. Um, but it is
+kind of nice to be able to figure out
+like, okay, this one's in the research
+phase, this one's in design. You kind of
+see like how far along things are.
+>> Mhm. Um, okay. So, I'm going to send
+this one over
+and then, okay, what do we got? We want
+to allow interrupts even if they're
+greater than zero. So, so you don't have
+to like deny four approvals in a row
+when you already know you want to
+interrupt because it is trying to do the
+wrong thing.
+Yeah. Okay, cool. So, we'll copy.
+Actually, we'll copy the whole thread
+here.
+Let's see. I'm a little bit losing track
+of which of the things we sent them
+already. Let's see.
+Yeah. Okay, cool. So, I'm going through
+this design discussion um
+and it's coming through and taking my,
+you know, open questions and moving them
+to design resolve design questions.
+And it looks like we're done.
+Um Oh, and it wants to reply to the
+comment. Nice. So, we gave it we gave it
+an MCP server so Claude can also be on
+your comment threads.
+Um but yeah, now this is done. So I'm
+going to like again we did the auto
+advance before but if you hadn't had
+auto advance basically every step would
+end and then you would you know come
+here and click this button uh at the
+bottom. So it's like okay we made a
+sevenstep workflow. How do we teach that
+to people and make it usable? It's like
+okay you need this like outer
+orchestration like you know the outer
+harness if you will that actually like
+manages the sessions and the like
+individual context windows.
+>> Right. Right.
+Um, okay. So, this is the structure
+outline. This is the like again like if
+you are if we're going through this
+process and like it's a huge issue, I'll
+look at every single one of these and
+I'll like as it's implementing I'll look
+at each each like phase in a row. Uh,
+just in what do we have like 15 minutes
+left?
+>> Mhm. Yeah.
+>> Okay. I'm not sure if we'll get to the
+very end, but um hopefully we'll
+actually have something built that I can
+run in a dev environment for us. Uh, but
+what I will do is I'm going to throw
+this on auto advance. So when the plan
+is done, it will make a work tree. When
+the work tree is done, it will start
+implementing. And when the
+implementation is done, it will ship us
+a PR.
+>> This is super cool. I mean,
+>> it's a little weird. It's I don't think
+it's for everybody, but this is how we
+like to build and this is how like we've
+seen this like mirrors on to some
+processes that like a lot of really
+really prolific AI builders that we
+found kicking around the inside of uh of
+larger teams are thinking about things.
+>> Mhm. Mhm. Yeah, there's definitely some
+core pieces here that I think definitely
+apply to multiple multiple folks. I
+mean, I love the joint collaboration on
+the design and making that super
+streamlined. Um, love this idea of the
+learning test. That's like a a really
+cool way to sort of extract pieces of
+information from some some blackbox SDK
+or blackbox system in a way that's not
+just hey like read some docs but
+actually prove it through execution like
+right what we love about software is
+verifiability and this is like basically
+having the verifiability be part of the
+process of doing the research in some
+sense which is which is super cool.
+>> Um,
+>> yeah those are the like
+>> Yeah. Yeah. Go ahead. No, it's all you.
+>> Those those I mean that was a little
+bonus content. I didn't pick this issue
+thinking we would do a learning test,
+but in the middle of the design I was
+like I don't trust that you understand
+this, so I'm going to make you prove the
+understanding. And that's that's the
+whole process is about is like the
+models are really good at saying a lot
+of things.
+>> Yeah. Yeah.
+>> Um and they may not necessarily be
+really good at like uh they just it's
+just the next token guessers, right? So
+it's like you don't you don't fully
+trust them until they actually like
+prove their work.
+>> That's I love it. That's super cool.
+>> Yeah. So that's one off the beaten path.
+The other one I I haven't talked about a
+lot, but we do a lot of work in story
+book. And so like the other thing I
+might do during design if I'm like you
+can't I can look at a markdown doc and
+like a bunch of JSX and React code in a
+markdown doc and I can know whether it
+follows our design system, but I don't
+know if it's going to look good. And so
+we do a lot of work in I'll Okay, I'll
+I'll come back to that in a sec.
+um you we're going to miss the other
+bonus content today unfortunately, but
+we're doing a podcast on it in two
+weeks. So, I will I will share that with
+you. You can put on the on the video,
+right?
+>> Um cool.
+>> So, here is our structure outline. Um
+it's going to recap a lot of stuff that
+was already reviewed in the design
+discussion. Um and it summarizes that as
+well. Um and then this is going to kind
+of give us the outline of um the actual
+phases and then how we're going to check
+it. Um I usually for small we're going
+to add more fate. We're gonna add more
+tests here. Great.
+Um
+making sure those hot keys get attached.
+Um
+add is interruptible.
+An interrupt button.
+I'm I'm less looking at the individual
+changes because it's easier to just like
+play with it and read the code when the
+model writes it and we're going to read
+the code anyways. Um, so for me it's
+more like okay, what are the validation
+steps? I might say like
+>> combined steps h combine steps one and
+two. I just want phases with new
+manual testing steps uh to do when
+they're done. Um, oh, it's just a
+two-phase plan. All right, never mind.
+We're just gonna we're just going to rip
+this. Um so the first uh the first phase
+was just like the only test was like
+automated testing which I don't love in
+in in these phase like I always want to
+have something to check and the reason
+why we do this is um basically I I
+talked about this in the in the talk
+before but basically like models love to
+make these horizontal plans where it's
+like we're going to do the database and
+then the services and then the API and
+then the front end and before you know
+it like you couldn't check anything
+along the way other than like running
+the tests or reading the code. And so
+before you know it, you're at the other
+end of,200 lines of code and like you
+find out it's not working and suddenly
+you have a huge surface area to go debug
+across versus like I think when when I
+build software before AI would be like
+okay I'm going to build the API endpoint
+and then I'm going to figure out the
+front end and then I'm going to wire the
+API to a services layer and then I'm
+going to add the database migrations and
+then I'm going to do some business logic
+and then I'm going to add some error
+handling and so like at each step along
+the way there's like a discrete thing
+that like yes we'll use tests
+And yes, like we will we will read the
+code, but also like I the human get a
+chance to just go in and like gut check
+that something is correct, fix the UI,
+restructure stuff before we're so deep
+in the context window or so deep in the
+build that uh you know it'll be less
+likely that we can recover from a bad
+plan,
+>> right?
+>> Does that make sense?
+>> Yeah, that does. And actually that's
+that's way more intuitive.
+>> It's like it's how you build software,
+right? Like you wouldn't sit down and
+type out 1,200 lines of code. You would
+write like 50 lines of code and then run
+some tests and then another 100 lines of
+code and then go look at it in the
+browser. You know what I mean?
+>> Yeah. Yeah. I wonder if if future models
+are going to I mean that's that's
+absolutely right. And and now think
+about it like what what would why are
+they getting pushed in that direction
+like more like horizontal structuring
+rather than this like incremental build
+and and build pieces stitch together
+pieces then build that you know then
+test that stitch together thing. It's a
+really interesting idea why
+>> I mean speaking of like how uh like
+ignoring the bitter lesson is like we've
+really optimized this workflow because
+we want to solve problems for people
+today. This is like the most important
+parts are the two things that the models
+are worst at. Number one like making
+long broad like long-term architecture
+decisions and number two like ordering
+plans in a way that is actually like
+verifiable along the way. And
+>> basically, yeah, it's the idea is like,
+okay, until we can get models that are
+good at this, like we the prompt for
+this stage is so it reiterates like four
+times like make it vertical, don't do
+horizontal slices. And we've tried a
+bunch of different like we have some
+eval cooking internally on this and it's
+just like we can't get it reliable
+enough at this task at creating
+verticalized plans. So we keep the
+humans in the loop at these two steps
+and as soon as we can like either like
+RL or fine-tune a model that is good at
+this stuff then humans won't be needed
+here anymore but this is the highest
+leverage place that we have found to put
+humans in the workflow.
+>> Yeah makes sense. So y
+>> this this last step the planning is
+taking our like highle outline and then
+actually just going to write the like
+line by line here's how uh here's how
+clot approaches this problem like every
+single code change that's going to need
+to happen.
+>> Yep. And this is now on um normally you
+would you would verify along along the
+way but now we're kind of on on auto
+here. We're on auto mode.
+>> I have I have it on auto and this is
+actually just ended up being like a
+two-phase plan. So, uh, you know,
+depending on how sometimes we have like
+ninephase plans and I'm like, this is
+really sensitive and it might not get
+done correctly. I mean, this is complex
+code, but this is just this is just a
+bunch of tests.
+>> Like, I'm worried it might not not get
+done correctly. And so, I want to check
+it along the way because I would rather
+spend a little more time in the loop and
+like resteer it along the way early on
+>> than uh risk having it rip the whole
+thing and I got to like start over.
+>> Totally. Yep. That's super reasonable.
+Yeah. So, okay, we got a new button if
+needs approval and uninterrupt. And then
+we got our interrupt button. Great. I'm
+kind of reviewing this as it's already
+like continuing through the work
+workflow. So, this is going to go run
+our script and make a work tree and then
+it's going to launch the new session in
+the work tree to actually do the
+implementation with with sub agents.
+>> Mhm. And mind you, behind the scenes
+there's there's a lot of like you said
+hooks. There's I'm sure some very uh
+custom cloud MD type of guiding you guys
+are doing on the agent configuration
+files. Like what else do you kind of
+have like what else is part of the
+harness here that that we're not seeing
+um interfacing with the UI?
+>> Yeah,
+>> that's a great question. Yeah, I'm I'm
+happy to share a little bit more of like
+under the hood of of of what's happening
+here. So, um we do have um we have hooks
+that get installed in the cloud code
+sessions which loop back to like demon
+logic. Um, and so something like that
+would be like, you know, when Claud
+writes an artifact,
+um, we fire a hook that actually sends
+the content of the artifact to the API
+and it gets dropped into our like
+artifacts table,
+>> which artifacts are actually a child of
+the task. So task has sessions, oops,
+task has sessions and
+artifacts as like its children. Um we
+also have like non-clot integrated hooks
+where basically like
+um we do this thing where basically like
+on event there may be some like logic
+and some branching of some things we
+check. Um, and what this like the way if
+I wanted to do like marketing speak
+basically you have like a supervisor
+agent that is like watching all your
+session events
+and like recommending next steps.
+>> Mhm.
+But like in reality, if you want to take
+the like AI pipeline thing is like we
+take the like assistant final answer
+and we put it through a prompt
+and we get out some like JSON object of
+like you know
+are there next steps and it's like
+boolean and then like what is the what
+is the next workflow and like what
+working directory should it be launched
+in. M
+>> and so we basically take the content of
+the internal session and then put a
+supervisor agent over it to um to
+actually do the work. So this is um oh
+see our work tree thing.
+Uh oh.
+Interesting.
+Still file Simpson detected. Okay, it
+finished the work tree. Now it's
+installed and files copied. Work tree
+configured. It pop over here and now
+it's started implementing. So this is
+and then yeah, so the last thing we have
+is we have like a custom set of skills.
+So these skills get like loaded in as a
+plugin and then Claude can call specific
+prompts that like match the workflow.
+But like
+>> all we're doing in the automation is
+just telling it to use the skill and ask
+in this case we since auto advance it's
+like don't don't wait for confirmation
+after each phase. Just go just go rip
+all the phases.
+>> Totally.
+>> Does that answer your question?
+>> It does. Yeah. Yeah. And then the skills
+here are you I see like an implement
+plan and what what other skills fall in
+there that that are are part of that
+workflow.
+>> Yeah. So we walk you through it but
+they're also just like all available. So
+you have create plan,
+>> create research, create design
+discussion, all these pieces. Um and
+then you also have iterate skills. So if
+your context window gets high and you
+want to keep working on a design
+discussion, you can use this and like
+you know
+>> more questions, vet all assumptions,
+etc. And this will just tell it, okay,
+you got to go read the design. I'm not
+actually going to let this one proceed
+because like design discussion is once
+the plan is written, all these docs
+basically get like thrown out. Um, I
+mean, you can come back to them for
+reference and if you have to rewind and
+iterate, you can. But from this point
+on, we're just using the plan. So, it is
+safe to mess with this.
+>> Um, but this will kind of tell it like
+it has all the knowledge of what's a
+good design discussion, but instead of
+make a new one, it's like read the
+existing one and make some changes. Mhm.
+Mhm.
+>> So I'm going to just interrupt that one,
+but um come back to implementation. We
+run with like a smarter like opus tier
+model on the outer and then we use like
+fast sonnet sub aents because if you
+look at this plan it's like you don't
+need a lot of intelligence to read this
+diff and go make the changes and then
+like go run the tests and fix them if
+they fail. So we can use those. We've
+done all the hard thinking already.
+>> So all right, this is running. I'm going
+to go ahead and start my dev server
+core 861
+and we will get it going.
+Oh, of course these API tests always
+take freaking forever. Kyle just made
+the API test faster, but it's not merged
+yet.
+Sub agent finished.
+We're skipping the tests. Let's just go
+to phase two. I'm doing something that I
+wouldn't normally do, but
+let's just come in here and we can run
+them manually.
+If there is a failure, I'll just come
+back and have Claude fix it.
+>> Just for the sake of time. I know we're
+we're at time. I'm happy to go over a
+little bit.
+>> Yeah. Yeah. Yeah. Me, too. Like I'm I'm
+I'm good. I'm good. Yeah. Yeah.
+>> Okay. Nice.
+Um Okay. Yeah. We have a little bit of
+test flakiness that is now fixed, but we
+run all of our uh part of being able to
+run write lots of code is writing lots
+of tests and we have a lot of sort of
+end toendy tests that like use a real
+docker container and a real Postgress
+instance and uh
+>> running those in massive parallel on a
+MacBook can sometimes be a little a
+little wonky. So
+>> but apparently we move them all to use a
+shared instance. So I'm very much
+looking forward to that.
+It's just like it's ability to allocate
+random ports is like just like could be
+a little bit better.
+>> Still impressed they can do that. That's
+okay. So this is running. We're doing
+waiting for Rust to compile.
+Let's see.
+Okay.
+And allegedly this should be good to go.
+And it should just commit.
+Um,
+I don't know. You know anybody who knows
+how to make Rust compile faster?
+Don't you know Viv quite well? I thought
+he would have some thoughts on this.
+>> Oh yeah, Vib is a big Rust guy. Yeah, he
+told me there's no there's no hope. It's
+actually why he doesn't use work trees
+is because like it's really hard to I
+mean maybe it's possible but we we've
+looked into a little bit of like
+preserving the Rust build cache across
+work trees is actually like kind of a
+pain in the ass um
+>> and or quite hard to do. Um
+>> interesting.
+>> But what we can do is I think we can
+just skip the native app and just go
+this one doesn't need the native
+features. So we'll just go through the
+web app here.
+If we can get Vit to do its thing
+and
+it just cooked my lap. on top.
+>> Nice. Nice.
+>> Why is this taking so long?
+Let's see.
+Here we go. All right, we made it.
+Nice.
+>> Switch to the local org and let's just
+make a new session.
+And here we go.
+Uh, so now we have our interrupt button
+and I should be able to just control C
+this interrupt requested and the tool
+use was rejected. Amazing. It works.
+>> Nice. Nice. Nice.
+>> Nice.
+>> Make sure Claude knows that it worked.
+Wow, that's sick. I actually like have
+wanted this feature for so long. Um,
+>> that's amazing. Awesome.
+>> Cool.
+>> So, and then I will go read this code
+and uh go drop the PR. So, that's that's
+what would come next. Um, looks good.
+commit and push and then tell me how to
+do the PR step.
+>> So
+>> that's sick.
+>> Um yeah, that was it.
+>> That's sick. Wow.
+>> That's cool. Ended up being not that
+much code, but I'm like I'm not going to
+go read and understand how all that
+works uh at the like low level. So we
+let it run all its tests and do the
+thing. We'll see if the test pass and
+see. I might need to do another
+iteration to like hack on the test since
+it I didn't want to make you wait
+through all of that. But um there you
+go.
+>> That's the build.
+>> That's super cool. That's okay. Dex, I
+have to ask I mean one going to pause
+and just just kind of sit with that a
+little bit cuz that was awesome and it
+worked and it was basically in one go
+you you had it implemented which is sick
+and it went through all that that full
+kind of series of steps and yes you
+mentioned there be maybe more
+intermediate supervision along the way
+checking maybe a little bit more closely
+some of those aspects. Understandable.
+Um,
+>> what what if this can can be shared? So,
+at some point 20,000 people will come
+off a weight list and get to use use the
+interface you guys have built. Uh, what
+else is stuff that people can pull and
+and and um and use for themselves? What
+other skills? Do you guys have anything
+that's open source that you're willing
+to share with with people that might be,
+you know, bits and pieces they can they
+can use? I'd be curious uh what you guys
+have sort of already made available
+outside of eventually the full UI of of
+the of the actual platform.
+>> Yeah. So, um the original set of prompts
+we did was like research plan implement
+was open sourced and 10,000 people plus
+picked them up. They're being used all
+over, you know, people who don't even
+pay us any money. Just like, hey, we do
+RPI everywhere across the company. You
+know, Fortune 500, you know, thousands
+of engineers, they're just using it
+everywhere. And like that's dope. Uh,
+but we also when we did that, we had a
+lot of people take those prompts and try
+to build SAS products around them and
+sell them. So, uh, we have not open
+sourced the new set of prompts yet, uh,
+just because we're still iterating on
+them and getting feedback. We may open
+source them someday, probably under some
+sort of a AJPLish license that is more
+like, hey, look, you can use this to do
+whatever you want, but you're not
+allowed to like sell it as your own kind
+of thing. Uh,
+>> is that defensible? Is that a defensible
+model? I mean, sorry, like people can
+take prompts.
+>> I don't think you can build a company on
+a prompt, dude. Like, that was my thesis
+the whole time, but also like
+>> I don't know. Like I know the cognition
+team is very like particular about their
+prompts and they really don't want them
+linked. Like people try to protect their
+system prompts for a reason. We're not
+trying that hard. Like if you set up a
+proxy, you can get inside any harness
+and figure it out. So like
+>> but I actually really like uh go build
+the crispy props for yourself by taking
+we gave the conference talk. You can go
+get the transcript from that. You can go
+get the original RPI skills. Like none
+of the instructions have changed. We
+just broke them down. And so it's almost
+like has in in the discord I'm like I'm
+not telling you guys how to do this. I'm
+going to leave it as an exercise for the
+reader because I think it's a really
+great way to learn context engineering
+is like go take these concepts of take
+these mega 85 instruction mega prompts
+and break them down into like 30
+instruction prompts and figure out how
+to stitch them together will teach you
+so much about models LLM prompt
+engineering context engineering like so
+uh I will uh I will handwaveily say like
+I'm not tell I'm not giving you the
+answer key like you know you got to be a
+professor if you want the textbook with
+the answers in
+I love that. I love that there's like
+the international version. I'll get the
+international version. The one that you
+remember back in the days when text was
+having your international version that
+you could like it was always like off
+odd numbers and things like that. That's
+you know you only get answers to 1,
+three and five and seven but nothing in
+the evens or something like that.
+>> Exactly. Yeah. And then they would take
+the odd the odd problems were homework
+and the even questions were on the exams
+or whatever.
+>> Exactly. Right. Exactly. Right. Exactly.
+Well, in any case, um this is all
+awesome, Dex. I'm super cool. Love to
+see this. I I eagerly wait the next few
+weeks when you when you release more of
+this to the world and start, you know,
+giving people access to this. I'm it's
+an evolved process and and yes, maybe
+the there wasn't a lot of lines of code
+per se, but you know, heavy the density
+seems like it was it was really high and
+so that's I think it's worth going
+through the workflow and seeing that.
+Um, love that and really excited to see
+this come get come live and and when
+more people can start hacking with this
+and making this a part of their
+workflow.
+>> Yeah, man. This was a blast. Like I
+thank you for thank you for giving me a
+chance to chat about this. I had a lot
+of fun. I got to ship something. Like I
+I got to do my job today. That's great.
+That's awesome.
