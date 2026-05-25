@@ -27,6 +27,13 @@ All skill files are in the [`skills`](skills) folder:
 * [`/retro`](skills/retro) - Weekly engineering retrospective analyzing commit history, work patterns, and code quality metrics
 * [`/review`](skills/review) - Pre-landing PR review for SQL safety, LLM trust boundary violations, and conditional side effects
 * [`/ship`](skills/ship) - Ship workflow for merging, testing, bumping versions, updating changelogs, and creating PRs
+* [`/codebase-maintainability-guardrails`](skills/codebase-maintainability-guardrails) - Default engineering standards for maintainable coding work
+* [`/antislop-codebase`](skills/antislop-codebase) - Structural cleanup and maintainability migrations for messy or prototype repositories
+* [`/productionize-app-with-services`](skills/productionize-app-with-services) - Product and operational hardening for working apps
+* [`/security-hardening`](skills/security-hardening) - Practical application security hardening passes
+* [`/observability-hardening`](skills/observability-hardening) - Privacy-safe telemetry, logs, traces, metrics, and debugging visibility
+* [`/release-readiness-hardening`](skills/release-readiness-hardening) - Safe release gates, deployment checks, smoke tests, and rollback planning
+* [`/test-strategy-hardening`](skills/test-strategy-hardening) - Test-suite audits and hardening for confidence per minute
 
 ### Sourced from gstack
 
@@ -36,6 +43,17 @@ The following skills are sourced from [mnalley95/gstack](https://github.com/mnal
 * `/retro`
 * `/review`
 * `/ship`
+
+### Sourced from swyxio/skills
+
+The following Kakuna Codebase Hardening Suite skills are sourced from [swyxio/skills](https://github.com/swyxio/skills):
+* `/codebase-maintainability-guardrails`
+* `/antislop-codebase`
+* `/productionize-app-with-services`
+* `/security-hardening`
+* `/observability-hardening`
+* `/release-readiness-hardening`
+* `/test-strategy-hardening`
 
 ## PI Coding Agent Extensions
 
