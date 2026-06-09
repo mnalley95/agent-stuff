@@ -22,6 +22,7 @@ All skill files are in the [`skills`](skills) folder:
 * [`/frontend-design`](skills/frontend-design) - Claude Skill for designing and implementing distinctive frontend interfaces
 * [`/uv`](skills/uv) - Claude Skill for using `uv` for Python dependency management and script execution
 * [`/mermaid`](skills/mermaid) - Claude Skill for creating and validating Mermaid diagrams with the official Mermaid CLI
+* [`/handoff`](skills/handoff) - Claude Skill for compacting a conversation into a handoff document for another agent
 * [`/plan-ceo-review`](skills/plan-ceo-review) - CEO/founder-mode plan review for rethinking problems and finding 10-star product ideas
 * [`/plan-eng-review`](skills/plan-eng-review) - Engineering manager-mode plan review for locking in execution plans
 * [`/retro`](skills/retro) - Weekly engineering retrospective analyzing commit history, work patterns, and code quality metrics
@@ -54,6 +55,11 @@ The following Kakuna Codebase Hardening Suite skills are sourced from [swyxio/sk
 * `/observability-hardening`
 * `/release-readiness-hardening`
 * `/test-strategy-hardening`
+
+### Sourced from mattpocock/skills
+
+The following skills are sourced from [mattpocock/skills](https://github.com/mattpocock/skills):
+* `/handoff`
 
 ## PI Coding Agent Extensions
 
