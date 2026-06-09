@@ -1,0 +1,4 @@
+interface:
+  display_name: "Customer Discovery Synthesis"
+  short_description: "Synthesize and critically evaluate discovery calls"
+  default_prompt: "Use $customer-discovery-synthesis to synthesize this customer discovery session against the playbook and broader product docs, including critical evidence and willingness-to-pay checks."

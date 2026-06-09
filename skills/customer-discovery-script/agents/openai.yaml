@@ -1,0 +1,4 @@
+interface:
+  display_name: "Customer Discovery Script"
+  short_description: "Create tailored customer discovery prep scripts by persona."
+  default_prompt: "Create a tailored customer discovery prep file for [person] at [company]."
