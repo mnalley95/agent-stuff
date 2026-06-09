@@ -70,7 +70,14 @@ scripts/create_worktree.sh
 
 Read it before use.
 
-The helper creates or reuses a branch, creates an isolated worktree under the repo's worktree base, copies local agent configuration when present, and prints the implementation handoff. It does not install dependencies, launch implementation, commit, open a PR, or update tickets.
+The helper creates or reuses a branch, creates an isolated worktree under the repo's worktree base, copies local agent configuration when present, and prints the implementation handoff. It does not launch implementation, commit, open a PR, or update tickets.
+
+By default, the helper also copies:
+
+- The plan and directly referenced QRSPi artifacts from the source checkout when they exist locally, so newly created plan/design/research/structure files are available in the implementation worktree even before they are committed.
+- Local env files (`.env`, `.env.local`, `.env.*.local`) when present, without overwriting existing target env files.
+
+Dependency installation remains explicit. If the user asks for dependencies to be installed in the worktree, add `--install-deps`; otherwise leave dependency setup to the implementation session.
 
 Example pattern:
 
@@ -108,6 +115,12 @@ command to run:
     ./scripts/create_worktree.sh --plan [relative plan path] --branch [branch]
 
 Please confirm or adjust these details.
+```
+
+If dependency installation is requested, include it in the command shown for confirmation:
+
+```text
+    ./scripts/create_worktree.sh --plan [relative plan path] --branch [branch] --install-deps
 ```
 
 ### 5. Create the worktree after confirmation
